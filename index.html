@@ -1,0 +1,1174 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>ACK Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --surface:#F4F6F9; --paper:#FFFFFF; --ink:#16212E; --muted:#5B6A7D; --line:#DEE4EB;
+  --brandc:#0E5C53; --on-brand:#FFFFFF; --brand-soft:#E4F1EE; --brand-txt:#0B4A43;
+  --ok:#1C8059; --ok-soft:#E3F3EC; --danger:#B3322B; --danger-soft:#FBEAE9; --warn:#B25A12; --warn-soft:#FDF0E3;
+  --radius:14px;
+  --shadow:0 1px 0 rgba(22,33,46,.04),0 14px 30px -16px rgba(22,33,46,.3);
+  --f:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--surface);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+[hidden]{display:none!important}
+
+/* ---------- tombol ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);
+  border-radius:11px;padding:9px 15px;font-weight:600;font-size:14.5px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--surface)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--brandc);outline-offset:2px}
+.btn.primary{background:var(--brandc);border-color:var(--brandc);color:var(--on-brand)}
+.btn.primary:hover{background:#0B4A43}
+.btn.danger{background:var(--danger);border-color:var(--danger);color:#fff}
+.btn.danger:hover{background:#962B25}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--surface)}
+.btn.sm{padding:6px 11px;font-size:13.5px;border-radius:9px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px;flex:none}
+
+/* ---------- gerbang masuk ---------- */
+.gate{min-height:100dvh;display:grid;place-items:center;padding:24px;background:var(--surface)}
+.gate form{width:min(100%,380px);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:var(--shadow);display:grid;gap:16px}
+.gate .mark{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.gate h1{font-size:23px;letter-spacing:-.01em}
+.gate p.sub{color:var(--muted);font-size:14.5px}
+
+/* ---------- kerangka ---------- */
+.shell{display:grid;grid-template-columns:248px 1fr;min-height:100dvh}
+.side{background:var(--paper);border-right:1px solid var(--line);padding:20px 16px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100dvh}
+.logo{display:flex;align-items:center;gap:11px;padding:0 6px}
+.logo .sq{width:34px;height:34px;border-radius:9px;background:var(--brandc);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;letter-spacing:.02em}
+.logo b{font-size:16.5px;letter-spacing:-.01em;display:block}
+.logo span{font-size:12.5px;color:var(--muted)}
+nav{display:grid;gap:3px}
+nav button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:0;background:transparent;border-radius:10px;padding:10px 12px;font-weight:600;font-size:14.5px;color:var(--muted);cursor:pointer}
+nav button:hover{background:var(--surface);color:var(--ink)}
+nav button[aria-current="page"]{background:var(--brand-soft);color:var(--brand-txt)}
+nav svg{width:18px;height:18px;flex:none}
+.side .foot{margin-top:auto;display:grid;gap:8px;border-top:1px solid var(--line);padding-top:14px}
+.side .who{font-size:12.5px;color:var(--muted);padding:0 6px}
+
+main{padding:28px 32px 72px;max-width:1180px}
+.topbar{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.topbar .t{flex:1;min-width:260px}
+.topbar h2{font-size:25px;letter-spacing:-.015em}
+.topbar p{color:var(--muted);font-size:14.5px;margin-top:3px}
+.seg{display:inline-flex;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:3px;gap:3px}
+.seg button{border:0;background:transparent;border-radius:8px;padding:7px 13px;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--brandc);color:#fff}
+
+/* ---------- kartu & tabel ---------- */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card .hd{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.card .hd h3{font-size:16px;flex:1}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;background:#FAFBFC}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#FBFCFD}
+td.r,th.r{text-align:right}
+.kode{font-weight:700;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.sub{color:var(--muted);font-size:13.5px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12.5px;font-weight:700}
+.pill.on{background:var(--ok-soft);color:var(--ok)}
+.pill.off{background:var(--surface);color:var(--muted)}
+.pill.brand{background:var(--brand-soft);color:var(--brand-txt)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.rowact{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+
+.empty{padding:56px 24px;text-align:center;display:grid;gap:10px;justify-items:center}
+.empty .ico{width:52px;height:52px;border-radius:14px;background:var(--surface);display:grid;place-items:center;color:var(--muted)}
+.empty h3{font-size:17px}
+.empty p{color:var(--muted);max-width:42ch;font-size:14.5px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat b{display:block;font-size:27px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:13.5px}
+
+/* ---------- formulir ---------- */
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-weight:600;font-size:13.5px}
+.field input,.field select{border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:var(--paper);width:100%}
+.field input:disabled{background:var(--surface);color:var(--muted)}
+.field .hint{font-size:12.5px;color:var(--muted)}
+.field.bad input{border-color:var(--danger)}
+.err{color:var(--danger);font-size:13px;font-weight:600}
+.two{display:grid;grid-template-columns:120px 1fr;gap:14px}
+
+/* ---------- dialog ---------- */
+dialog{border:0;padding:0;background:transparent;max-width:100%}
+dialog::backdrop{background:rgba(22,33,46,.42)}
+.sheet{width:min(100vw - 32px,500px);background:var(--paper);border-radius:18px;box-shadow:0 30px 70px -20px rgba(22,33,46,.5);overflow:hidden}
+.sheet .hd{padding:20px 22px 0}
+.sheet .hd h3{font-size:19px;letter-spacing:-.01em}
+.sheet .hd p{color:var(--muted);font-size:14px;margin-top:5px}
+.sheet .bd{padding:18px 22px 4px}
+.sheet .ft{display:flex;gap:10px;justify-content:flex-end;padding:16px 22px 20px}
+.warnbox{display:flex;gap:11px;background:var(--danger-soft);border-radius:12px;padding:13px 15px;margin:4px 0 2px}
+.warnbox p{font-size:14px;color:#7E231E}
+.warnbox svg{width:19px;height:19px;flex:none;color:var(--danger)}
+.infobox{background:var(--surface);border-radius:12px;padding:13px 15px;font-size:14px;color:var(--muted);margin:4px 0 2px}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;
+  font-weight:600;font-size:14.5px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .18s, transform .18s;z-index:60;max-width:90vw}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+@media (max-width:880px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;align-items:center;gap:14px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px 14px}
+  .side .foot{margin-top:0;border-top:0;padding-top:0}
+  nav{grid-auto-flow:column;gap:4px}
+  nav button span{display:none}
+  .logo span{display:none}
+  main{padding:20px 16px 64px}
+  th:nth-child(3),td:nth-child(3){display:none}
+}
+/* ---- member ---- */
+.kartu-lencana{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;
+  padding:4px 10px;font-size:12.5px;color:var(--muted);margin:2px 4px 2px 0;white-space:nowrap}
+.kartu-lencana b{color:var(--ink);font-weight:650}
+.kartu-lencana .titik{width:8px;height:8px;border-radius:999px;flex:none}
+.kartu-blok{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.kartu-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.kartu-hd b{font-size:15.5px}
+.kartu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px 14px}
+.kartu-grid span{display:block;font-size:12px;color:var(--muted)}
+.kartu-grid b{font-size:14.5px;font-variant-numeric:tabular-nums}
+.riwayat{list-style:none;margin:12px 0 0;padding:10px 0 0;border-top:1px solid var(--line)}
+.riwayat li{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:3px 0}
+.riwayat i{font-style:normal;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ gerbang ============ -->
+<div class="gate" id="gate">
+  <form id="gateForm" autocomplete="off">
+    <div class="mark"><div class="sq" aria-hidden="true">ACK</div><div><b>ACK Group</b><span>Dashboard holding</span></div></div>
+    <p class="sub">Masuk dengan PIN manajemen untuk mengelola brand, cabang, dan akun petugas.</p>
+    <div class="field">
+      <label for="gatePin">PIN manajemen</label>
+      <input id="gatePin" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="current-password">
+    </div>
+    <p class="err" id="gateErr" hidden></p>
+    <button class="btn primary" type="submit" style="width:100%;padding:11px">Masuk</button>
+    <p class="hint" style="font-size:12.5px;color:var(--muted)">Prototipe: PIN awal 1234. Nanti PIN disimpan di server, bukan di aplikasi.</p>
+  </form>
+</div>
+
+<!-- ============ aplikasi ============ -->
+<div class="shell" id="app" hidden>
+  <aside class="side">
+    <div class="logo"><div class="sq" aria-hidden="true">ACK</div><div><b>ACK Group</b><span>Dashboard holding</span></div></div>
+    <nav id="nav" aria-label="Menu utama">
+      <button data-page="ringkasan" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10"/><path d="M10 19V5"/><path d="M16 19v-6"/><path d="M22 19H2"/></svg><span>Ringkasan</span></button>
+      <button data-page="cabang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg><span>Cabang</span></button>
+      <button data-page="petugas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.5"/><path d="M19 11h2"/><path d="M20 10v2"/></svg><span>Petugas</span></button>
+      <button data-page="member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h5"/></svg><span>Member</span></button>
+      <button data-page="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v12H3z"/><path d="M8 7V5h8v2"/></svg><span>Brand</span></button>
+      <button data-page="data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span>Sumber data</span></button>
+    </nav>
+    <div class="foot">
+      <p class="who">Masuk sebagai manajemen</p>
+      <button class="btn ghost sm" id="logoutBtn" style="justify-content:flex-start">Keluar</button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div class="t"><h2 id="pgTitle">Ringkasan</h2><p id="pgSub"></p></div>
+      <div id="brandSeg" class="seg" role="group" aria-label="Pilih brand"></div>
+      <button class="btn primary" id="addBtn" hidden></button>
+    </div>
+    <div id="pg"></div>
+  </main>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="dlg" aria-labelledby="dlgTitle"><div class="sheet">
+  <div class="hd"><h3 id="dlgTitle"></h3><p id="dlgSub"></p></div>
+  <form method="dialog" id="dlgForm"><div class="bd" id="dlgBody"></div>
+  <div class="ft" id="dlgFoot"></div></form>
+</div></dialog>
+
+<script>
+'use strict';
+/* =========================================================
+   ACK Group — dashboard holding (prototipe)
+   Data masih di perangkat ini (localStorage). Nanti disambungkan ke server
+   yang sama dengan aplikasi Temma dan DTOP.
+   ========================================================= */
+
+var KEY='ack:data', PINKEY='ack:pin', SESKEY='ack:ses';
+var $=function(s,r){return (r||document).querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var uid=function(){return Math.random().toString(36).slice(2,9)};
+var ls={
+  get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},
+  set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},
+  del:function(k){try{localStorage.removeItem(k)}catch(e){}}
+};
+
+/* ---------- data ---------- */
+var AWAL={
+  brand:[
+    {id:'temma',nama:'Temma Kopi',kode:'TM',aktif:true,warna:{utama:'#072D78',aksen:'#DD7C2E'}},
+    {id:'dtop', nama:'DTOP',      kode:'DT',aktif:true,warna:{utama:'#C8102E',aksen:'#F2B705'}}
+  ],
+  toko:[],      /* {id,brand,kode,nama,alamat,telepon,aktif,dibuat} */
+  petugas:[],   /* {id,brand,toko,nama,peran,aktif,pinDiatur,dibuat} */
+  kartu:[],     /* salinan kartu member dari server bersama */
+  server:{}     /* {url,ditarik,jumlah} — satu alamat untuk semua brand */
+};
+var D=load();
+function load(){
+  try{
+    var raw=ls.get(KEY);
+    if(!raw)return JSON.parse(JSON.stringify(AWAL));
+    var o=JSON.parse(raw);
+    o.brand=o.brand||AWAL.brand; o.toko=o.toko||[]; o.petugas=o.petugas||[];
+    o.kartu=o.kartu||[]; o.server=o.server||{}; delete o.sumber;
+    return o;
+  }catch(e){return JSON.parse(JSON.stringify(AWAL))}
+}
+function simpan(){ls.set(KEY,JSON.stringify(D))}
+
+/* =========================================================
+   Model multibrand
+   Satu orang dikenali dari nomor WhatsApp-nya. Orang yang sama bisa punya
+   kartu di beberapa brand sekaligus, dan tiap kartu berdiri sendiri:
+   level, token, dan riwayatnya tidak dicampur antarbrand.
+   ID kartu menyimpan asal: dua huruf brand, lalu tiga huruf cabang tempat
+   dia mendaftar. Contoh DTSKB4K9QX = DTOP, cabang SKB.
+   ========================================================= */
+var LV=10, TIER=['Bronze','Silver','Gold','Platinum'];
+
+function normaTelp(t){return String(t||'').replace(/[^0-9]/g,'').replace(/^0/,'62')}
+function telpTampil(t){var n=normaTelp(t);return n?'+'+n:'—'}
+function brandDariKartu(k){
+  var kode=String(k.code||'').slice(0,2).toUpperCase();
+  var b=D.brand.filter(function(x){return x.kode===kode})[0];
+  return b?b.id:'';
+}
+/* Cabang asal: huruf ke-3 sampai ke-5 pada ID, kalau cocok dengan kode cabang
+   milik brand itu. Kartu Temma lama belum menyimpan cabang, jadi bisa kosong. */
+function tokoDariKartu(k){
+  var br=brandDariKartu(k), kode=String(k.code||'').slice(2,5).toUpperCase();
+  var t=D.toko.filter(function(x){return x.brand===br&&x.kode===kode})[0];
+  return t||null;
+}
+function lvl(k){return Math.max(0,Math.min(LV,(k&&k.stamps)||0))}
+function tierNama(k){return TIER[Math.min(TIER.length-1,(k&&k.tier)||0)]}
+function kartuAktif(k){return k.active!==false}
+function jumlahCap(k){
+  var n=0,l=(k&&k.log)||[];
+  for(var i=0;i<l.length;i++)if(l[i].type==='pour')n++;
+  return n;
+}
+function kartuBrand(brandId){return D.kartu.filter(function(k){return brandDariKartu(k)===brandId})}
+
+/* Daftar orang: kartu dikelompokkan per nomor WhatsApp. */
+function daftarOrang(){
+  var peta={};
+  D.kartu.forEach(function(k){
+    var no=normaTelp(k.phone)||('tanpa-nomor:'+k.code);
+    if(!peta[no])peta[no]={telp:no,nama:k.name||'—',kartu:[],terbaru:0};
+    var o=peta[no];
+    o.kartu.push(k);
+    if((k.updatedAt||0)>o.terbaru){o.terbaru=k.updatedAt||0;o.nama=k.name||o.nama}
+  });
+  return Object.keys(peta).map(function(n){return peta[n]});
+}
+
+/* Pemakaian satu cabang: berapa member mendaftar di sana dan berapa cap
+   yang pernah diberikan atas kartu-kartu itu. */
+function dipakai(tokoId){
+  var t=D.toko.filter(function(x){return x.id===tokoId})[0];
+  if(!t)return {member:0,transaksi:0,total:0};
+  var ks=D.kartu.filter(function(k){var o=tokoDariKartu(k);return o&&o.id===t.id});
+  var trx=ks.reduce(function(a,k){return a+jumlahCap(k)},0);
+  return {member:ks.length, transaksi:trx, total:ks.length+trx};
+}
+
+/* ---------- tampilan kecil ---------- */
+var toastT;
+function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){el.classList.remove('on')},2600)}
+function tgl(ms){try{return new Date(ms).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}catch(e){return '-'}}
+function namaBrand(id){var b=D.brand.filter(function(x){return x.id===id})[0];return b?b.nama:id}
+function namaToko(id){var t=D.toko.filter(function(x){return x.id===id})[0];return t?t.nama:'—'}
+function kodeToko(id){var t=D.toko.filter(function(x){return x.id===id})[0];return t?t.kode:'—'}
+
+/* =========================================================
+   Dialog: satu komponen untuk formulir dan untuk konfirmasi
+   ========================================================= */
+var dlg=$('#dlg'), dlgForm=$('#dlgForm'), onSubmit=null;
+function tutupDialog(){dlg.close()}
+dlg.addEventListener('close',function(){onSubmit=null});
+dlgForm.addEventListener('submit',function(e){
+  if(e.submitter && e.submitter.value==='batal'){return}
+  if(onSubmit){
+    e.preventDefault();
+    var ok=onSubmit();
+    if(ok!==false)dlg.close();
+  }
+});
+function bukaDialog(o){
+  $('#dlgTitle').textContent=o.judul;
+  $('#dlgSub').textContent=o.sub||'';
+  $('#dlgSub').hidden=!o.sub;
+  $('#dlgBody').innerHTML=o.isi||'';
+  $('#dlgFoot').innerHTML= o.hanyaTutup
+    ? '<button class="btn primary" type="submit" value="batal">Tutup</button>'
+    : '<button class="btn" type="submit" value="batal">'+esc(o.batal||'Batal')+'</button>'+
+      '<button class="btn '+(o.bahaya?'danger':'primary')+'" type="submit" value="ya">'+esc(o.lanjut)+'</button>';
+  onSubmit=o.jalan;
+  dlg.showModal();
+  var f=$('#dlgBody input,#dlgBody select');
+  if(f)setTimeout(function(){f.focus()},40);
+  else setTimeout(function(){$('#dlgFoot .btn:last-child').focus()},40);
+}
+var IKON_PERINGATAN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+
+/** Konfirmasi untuk semua tindakan yang menghapus atau menonaktifkan. */
+function konfirmasi(o){
+  bukaDialog({
+    judul:o.judul, sub:o.sub,
+    isi:'<div class="warnbox">'+IKON_PERINGATAN+'<p>'+o.pesan+'</p></div>'+(o.tambahan||''),
+    batal:'Batal', lanjut:o.lanjut, bahaya:true,
+    jalan:function(){o.jalan();return true}
+  });
+}
+
+/* =========================================================
+   Navigasi
+   ========================================================= */
+var S={page:'ringkasan', brand:'semua', cari:'', tokoFilter:''};
+$('#nav').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-page]'); if(!b)return;
+  S.page=b.dataset.page; render();
+});
+$('#logoutBtn').addEventListener('click',function(){
+  konfirmasi({judul:'Keluar dari dashboard?',pesan:'Kamu perlu memasukkan PIN manajemen lagi untuk masuk.',lanjut:'Keluar',
+    jalan:function(){ls.del(SESKEY);location.reload()}});
+});
+$('#addBtn').addEventListener('click',function(){
+  if(S.page==='cabang')formCabang(null);
+  if(S.page==='petugas')formPetugas(null);
+});
+
+function brandAktifList(){return D.brand}
+function filterBrand(arr){return S.brand==='semua'?arr:arr.filter(function(x){return x.brand===S.brand})}
+
+function renderSeg(){
+  var el=$('#brandSeg');
+  if(S.page==='ringkasan'||S.page==='brand'||S.page==='data'){el.hidden=true;return}
+  el.hidden=false;
+  var h='<button type="button" data-b="semua" aria-pressed="'+(S.brand==='semua')+'">Semua brand</button>';
+  D.brand.forEach(function(b){h+='<button type="button" data-b="'+b.id+'" aria-pressed="'+(S.brand===b.id)+'">'+esc(b.nama)+'</button>'});
+  el.innerHTML=h;
+}
+$('#brandSeg').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-b]'); if(!b)return;
+  S.brand=b.dataset.b; render();
+});
+
+/* =========================================================
+   Halaman
+   ========================================================= */
+function render(){
+  Array.prototype.forEach.call($('#nav').children,function(b){
+    if(b.dataset.page===S.page)b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+  });
+  renderSeg();
+  var add=$('#addBtn');
+  if(S.page==='cabang'){add.hidden=false;add.textContent='Tambah cabang'}
+  else if(S.page==='petugas'){add.hidden=false;add.textContent='Tambah petugas'}
+  else add.hidden=true;
+
+  if(S.page==='ringkasan')halRingkasan();
+  if(S.page==='cabang')halCabang();
+  if(S.page==='petugas')halPetugas();
+  if(S.page==='member')halMember();
+  if(S.page==='brand')halBrand();
+  if(S.page==='data')halData();
+}
+
+/* ---------- Ringkasan ---------- */
+function halRingkasan(){
+  $('#pgTitle').textContent='Ringkasan';
+  $('#pgSub').textContent='Gambaran singkat seluruh brand di bawah ACK Group.';
+  var aktif=D.toko.filter(function(t){return t.aktif}).length;
+  var pet=D.petugas.filter(function(p){return p.aktif}).length;
+  var orang=daftarOrang();
+  var lintas=orang.filter(function(o){
+    var b={}; o.kartu.forEach(function(k){b[brandDariKartu(k)]=1});
+    return Object.keys(b).length>1;
+  }).length;
+  var h='<div class="stats">'+
+    stat(D.brand.length,'Brand')+
+    stat(aktif,'Cabang aktif')+
+    stat(pet,'Petugas aktif')+
+    stat(orang.length||'—','Orang terdaftar')+
+  '</div>';
+
+  if(D.kartu.length){
+    h+='<div class="card"><div class="hd"><h3>Kartu per brand</h3></div>'+
+      '<table><thead><tr><th>Brand</th><th class="r">Kartu</th><th class="r">Kartu aktif</th>'+
+      '<th class="r">Token beredar</th><th class="r">Reward ditukar</th></tr></thead><tbody>';
+    D.brand.forEach(function(b){
+      var ks=kartuBrand(b.id);
+      h+='<tr><td><b>'+esc(b.nama)+'</b></td>'+
+        '<td class="r">'+ks.length+'</td>'+
+        '<td class="r">'+ks.filter(kartuAktif).length+'</td>'+
+        '<td class="r">'+ks.reduce(function(a,k){return a+(k.tokens||0)},0)+'</td>'+
+        '<td class="r">'+ks.reduce(function(a,k){return a+((k.claimed||[]).length)},0)+'</td></tr>';
+    });
+    h+='</tbody></table></div>';
+    h+='<p class="sub" style="margin:12px 0 18px">'+lintas+' orang memegang kartu di lebih dari satu brand. '+
+      'Mereka dihitung satu orang, tapi level dan rewardnya tetap terpisah per brand.</p>';
+  }
+
+  h+='<div class="card"><div class="hd"><h3>Cabang per brand</h3></div>';
+  if(!D.toko.length){
+    h+=kosong('Belum ada cabang','Tambahkan cabang lebih dulu di halaman Cabang. Setelah ada cabang, kamu bisa membuat akun petugas untuk tiap cabang.','cabang','Buka halaman Cabang');
+  }else{
+    h+='<table><thead><tr><th>Brand</th><th class="r">Cabang aktif</th><th class="r">Nonaktif</th><th class="r">Petugas</th><th class="r">Member</th></tr></thead><tbody>';
+    D.brand.forEach(function(b){
+      var t=D.toko.filter(function(x){return x.brand===b.id});
+      h+='<tr><td><b>'+esc(b.nama)+'</b></td>'+
+         '<td class="r">'+t.filter(function(x){return x.aktif}).length+'</td>'+
+         '<td class="r">'+t.filter(function(x){return !x.aktif}).length+'</td>'+
+         '<td class="r">'+D.petugas.filter(function(p){return p.brand===b.id}).length+'</td>'+
+         '<td class="r">'+kartuBrand(b.id).length+'</td></tr>';
+    });
+    h+='</tbody></table>';
+  }
+  h+='</div>';
+
+  if(D.kartu.length&&D.toko.length){
+    h+='<div class="card" style="margin-top:14px"><div class="hd"><h3>Member per cabang asal</h3></div>'+
+      '<table><thead><tr><th>Cabang</th><th>Brand</th><th class="r">Member</th><th class="r">Cap diberikan</th></tr></thead><tbody>';
+    D.toko.slice().sort(function(a,b){return dipakai(b.id).member-dipakai(a.id).member}).forEach(function(t){
+      var p=dipakai(t.id);
+      h+='<tr><td><span class="kode">'+esc(t.kode)+'</span> '+esc(t.nama)+'</td>'+
+        '<td class="sub">'+esc(namaBrand(t.brand))+'</td>'+
+        '<td class="r">'+p.member+'</td><td class="r">'+p.transaksi+'</td></tr>';
+    });
+    h+='</tbody></table></div>';
+  }else{
+    h+='<p class="sub" style="margin-top:14px">Angka member dan transaksi muncul setelah dashboard ini menarik data dari server Temma dan DTOP di halaman Sumber data.</p>';
+  }
+  $('#pg').innerHTML=h;
+}
+function stat(n,l){return '<div class="stat"><b>'+esc(n)+'</b><span>'+esc(l)+'</span></div>'}
+function kosong(judul,pesan,goPage,goLabel){
+  return '<div class="empty"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg></div>'+
+    '<h3>'+esc(judul)+'</h3><p>'+esc(pesan)+'</p>'+
+    (goPage?'<button class="btn" type="button" data-go="'+goPage+'">'+esc(goLabel)+'</button>':'')+'</div>';
+}
+document.addEventListener('click',function(e){
+  var g=e.target.closest('[data-go]'); if(!g)return;
+  S.page=g.dataset.go; render();
+});
+
+/* ---------- Cabang ---------- */
+function halCabang(){
+  $('#pgTitle').textContent='Cabang';
+  $('#pgSub').textContent='Daftar toko tiap brand. Kode cabang dipakai di ID member yang mendaftar di sana.';
+  var list=filterBrand(D.toko).slice().sort(function(a,b){return a.brand===b.brand?a.nama.localeCompare(b.nama):a.brand.localeCompare(b.brand)});
+  var h='<div class="card">';
+  if(!list.length){
+    h+=kosong('Belum ada cabang','Tambahkan cabang pertama. Kamu perlu kode tiga huruf, misalnya SKB untuk Sukabumi, yang nanti menempel pada ID member cabang itu.',null)
+      .replace('</div>','<button class="btn primary" type="button" data-add="cabang">Tambah cabang</button></div>');
+  }else{
+    h+='<table><thead><tr><th style="width:92px">Kode</th><th>Nama</th><th>Alamat</th><th>Status</th><th class="r">Tindakan</th></tr></thead><tbody>';
+    list.forEach(function(t){
+      h+='<tr><td><span class="kode">'+esc(t.kode)+'</span></td>'+
+        '<td><b>'+esc(t.nama)+'</b><div class="sub">'+esc(namaBrand(t.brand))+(t.telepon?' · '+esc(t.telepon):'')+'</div></td>'+
+        '<td class="sub">'+esc(t.alamat||'—')+'</td>'+
+        '<td>'+(t.aktif?'<span class="pill on"><span class="dot"></span>Aktif</span>':'<span class="pill off"><span class="dot"></span>Nonaktif</span>')+'</td>'+
+        '<td class="r"><div class="rowact">'+
+          '<button class="btn sm" type="button" data-ubah="'+t.id+'">Ubah</button>'+
+          '<button class="btn sm" type="button" data-toggle="'+t.id+'">'+(t.aktif?'Nonaktifkan':'Aktifkan')+'</button>'+
+          '<button class="btn sm" type="button" data-hapus="'+t.id+'">Hapus</button>'+
+        '</div></td></tr>';
+    });
+    h+='</tbody></table>';
+  }
+  h+='</div>';
+  h+='<div class="infobox" style="margin-top:14px">Kode cabang tidak bisa diubah lagi setelah ada member yang mendaftar di cabang itu, karena kodenya menempel pada ID mereka. Nama, alamat, dan telepon tetap bisa diubah kapan saja.</div>';
+  $('#pg').innerHTML=h;
+
+  $('#pg').addEventListener('click',function(e){
+    var a=e.target.closest('[data-add="cabang"]'); if(a)return formCabang(null);
+    var u=e.target.closest('[data-ubah]'); if(u)return formCabang(u.dataset.ubah);
+    var t=e.target.closest('[data-toggle]'); if(t)return toggleCabang(t.dataset.toggle);
+    var d=e.target.closest('[data-hapus]'); if(d)return hapusCabang(d.dataset.hapus);
+  });
+}
+
+function formCabang(id){
+  var t=id?D.toko.filter(function(x){return x.id===id})[0]:null;
+  var pakai=t?dipakai(t.id):{total:0};
+  var kunci=!!(t&&pakai.total>0);
+  var opsi=D.brand.map(function(b){return '<option value="'+b.id+'"'+((t?t.brand:(S.brand!=='semua'?S.brand:''))===b.id?' selected':'')+'>'+esc(b.nama)+'</option>'}).join('');
+  bukaDialog({
+    judul:t?'Ubah cabang':'Tambah cabang',
+    sub:t?'Perubahan berlaku untuk semua laporan cabang ini.':'Kode tiga huruf akan menempel pada ID member yang mendaftar di cabang ini.',
+    isi:'<div class="field"><label for="fBrand">Brand</label><select id="fBrand"'+(t?' disabled':'')+'>'+opsi+'</select>'+
+        (t?'<p class="hint">Cabang tidak bisa dipindah ke brand lain.</p>':'')+'</div>'+
+      '<div class="two">'+
+        '<div class="field"><label for="fKode">Kode</label><input id="fKode" maxlength="3" placeholder="SKB" value="'+esc(t?t.kode:'')+'"'+(kunci?' disabled':'')+'>'+
+          (kunci?'<p class="hint">Terkunci, sudah dipakai member.</p>':'<p class="hint">3 huruf</p>')+'</div>'+
+        '<div class="field"><label for="fNama">Nama cabang</label><input id="fNama" maxlength="48" placeholder="Sukabumi Kota" value="'+esc(t?t.nama:'')+'"></div>'+
+      '</div>'+
+      '<div class="field"><label for="fAlamat">Alamat <span class="sub">(boleh kosong)</span></label><input id="fAlamat" maxlength="120" value="'+esc(t?(t.alamat||''):'')+'"></div>'+
+      '<div class="field"><label for="fTelp">Telepon <span class="sub">(boleh kosong)</span></label><input id="fTelp" maxlength="20" inputmode="tel" value="'+esc(t?(t.telepon||''):'')+'"></div>'+
+      '<p class="err" id="fErr" hidden></p>',
+    lanjut:t?'Simpan perubahan':'Tambah cabang',
+    jalan:function(){
+      var brand=t?t.brand:$('#fBrand').value;
+      var kode=(kunci?t.kode:$('#fKode').value).toUpperCase().replace(/[^A-Z]/g,'');
+      var nama=$('#fNama').value.trim().replace(/\s+/g,' ');
+      var err=$('#fErr');
+      function gagal(m){err.textContent=m;err.hidden=false;return false}
+      if(!brand)return gagal('Pilih brand dulu.');
+      if(kode.length!==3)return gagal('Kode cabang berisi tepat 3 huruf.');
+      if(!nama)return gagal('Nama cabang wajib diisi.');
+      var bentrok=D.toko.filter(function(x){return x.brand===brand&&x.kode===kode&&x.id!==(t?t.id:'')})[0];
+      if(bentrok)return gagal('Kode '+kode+' sudah dipakai cabang '+bentrok.nama+'.');
+      if(t){
+        t.kode=kode;t.nama=nama;t.alamat=$('#fAlamat').value.trim();t.telepon=$('#fTelp').value.trim();
+        simpan();render();toast('Cabang '+nama+' diperbarui.');
+      }else{
+        D.toko.push({id:uid(),brand:brand,kode:kode,nama:nama,alamat:$('#fAlamat').value.trim(),telepon:$('#fTelp').value.trim(),aktif:true,dibuat:Date.now()});
+        simpan();render();toast('Cabang '+nama+' ditambahkan.');
+      }
+      return true;
+    }
+  });
+}
+
+function toggleCabang(id){
+  var t=D.toko.filter(function(x){return x.id===id})[0]; if(!t)return;
+  if(t.aktif){
+    var pet=D.petugas.filter(function(p){return p.toko===t.id&&p.aktif}).length;
+    konfirmasi({
+      judul:'Nonaktifkan cabang '+t.nama+'?',
+      pesan:'Kasir di cabang ini tidak bisa lagi masuk dan memberi cap.'+(pet?' Ada '+pet+' petugas aktif yang ikut terhenti.':''),
+      tambahan:'<div class="infobox">Member yang mendaftar di sini tetap aman. Kartunya tetap berlaku di cabang lain, dan riwayat lamanya tetap terbaca di laporan.</div>',
+      lanjut:'Nonaktifkan',
+      jalan:function(){t.aktif=false;simpan();render();toast('Cabang '+t.nama+' dinonaktifkan.')}
+    });
+  }else{
+    bukaDialog({judul:'Aktifkan kembali cabang '+t.nama+'?',sub:'Petugas di cabang ini bisa masuk lagi dan memberi cap.',
+      isi:'',lanjut:'Aktifkan',jalan:function(){t.aktif=true;simpan();render();toast('Cabang '+t.nama+' diaktifkan.');return true}});
+  }
+}
+
+function hapusCabang(id){
+  var t=D.toko.filter(function(x){return x.id===id})[0]; if(!t)return;
+  var pakai=dipakai(t.id);
+  var pet=D.petugas.filter(function(p){return p.toko===t.id});
+  if(pakai.total>0){
+    bukaDialog({
+      judul:'Cabang '+t.nama+' tidak bisa dihapus',
+      sub:'Sudah ada data yang menunjuk ke cabang ini.',
+      isi:'<div class="infobox">Tercatat '+pakai.member+' member mendaftar di sini dan '+pakai.transaksi+' transaksi. Menghapusnya akan membuat laporan lama kehilangan asal datanya.<br><br>Yang bisa dilakukan: nonaktifkan cabang ini. Kasirnya berhenti melayani, tapi seluruh riwayat tetap utuh.</div>',
+      lanjut:'Nonaktifkan saja', batal:'Tutup',
+      jalan:function(){t.aktif=false;simpan();render();toast('Cabang '+t.nama+' dinonaktifkan.');return true}
+    });
+    return;
+  }
+  konfirmasi({
+    judul:'Hapus cabang '+t.nama+'?',
+    pesan:'Cabang ini dihapus permanen dan tidak bisa dikembalikan.',
+    tambahan:pet.length?'<div class="infobox">'+pet.length+' akun petugas di cabang ini ikut terhapus.</div>'
+      :'<div class="infobox">Belum ada member atau transaksi di cabang ini, jadi aman dihapus. Kode '+t.kode+' bisa dipakai lagi nanti.</div>',
+    lanjut:'Hapus cabang',
+    jalan:function(){
+      D.petugas=D.petugas.filter(function(p){return p.toko!==t.id});
+      D.toko=D.toko.filter(function(x){return x.id!==t.id});
+      simpan();render();toast('Cabang '+t.nama+' dihapus.');
+    }
+  });
+}
+
+/* ---------- Petugas ---------- */
+var PERAN={kasir:'Kasir',kepala:'Kepala cabang'};
+function halPetugas(){
+  $('#pgTitle').textContent='Petugas';
+  $('#pgSub').textContent='Akun kasir dan kepala cabang. Tiap orang punya PIN sendiri, bukan PIN bersama.';
+  var list=filterBrand(D.petugas).slice().sort(function(a,b){return a.nama.localeCompare(b.nama)});
+  var adaToko=filterBrand(D.toko).length>0;
+  $('#addBtn').disabled=!adaToko;
+  var h='<div class="card">';
+  if(!adaToko){
+    h+=kosong('Belum ada cabang','Akun petugas selalu menempel pada satu cabang. Tambahkan cabang lebih dulu, lalu buat akun petugasnya.','cabang','Buka halaman Cabang');
+  }else if(!list.length){
+    h+=kosong('Belum ada petugas','Buat akun untuk tiap orang yang bertugas di kasir. Setiap cap yang diberikan tercatat atas namanya.',null)
+      .replace('</div>','<button class="btn primary" type="button" data-add="petugas">Tambah petugas</button></div>');
+  }else{
+    h+='<table><thead><tr><th>Nama</th><th>Cabang</th><th>Peran</th><th>Status</th><th class="r">Tindakan</th></tr></thead><tbody>';
+    list.forEach(function(p){
+      h+='<tr><td><b>'+esc(p.nama)+'</b><div class="sub">'+(p.pinDiatur?'PIN sudah diatur':'PIN belum diatur')+'</div></td>'+
+        '<td>'+esc(namaToko(p.toko))+'<div class="sub">'+esc(kodeToko(p.toko))+' · '+esc(namaBrand(p.brand))+'</div></td>'+
+        '<td>'+esc(PERAN[p.peran]||p.peran)+'</td>'+
+        '<td>'+(p.aktif?'<span class="pill on"><span class="dot"></span>Aktif</span>':'<span class="pill off"><span class="dot"></span>Nonaktif</span>')+'</td>'+
+        '<td class="r"><div class="rowact">'+
+          '<button class="btn sm" type="button" data-pubah="'+p.id+'">Ubah</button>'+
+          '<button class="btn sm" type="button" data-ppin="'+p.id+'">Atur PIN</button>'+
+          '<button class="btn sm" type="button" data-ptog="'+p.id+'">'+(p.aktif?'Nonaktifkan':'Aktifkan')+'</button>'+
+          '<button class="btn sm" type="button" data-phapus="'+p.id+'">Hapus</button>'+
+        '</div></td></tr>';
+    });
+    h+='</tbody></table>';
+  }
+  h+='</div>';
+  h+='<div class="infobox" style="margin-top:14px">PIN hanya bisa diatur ulang, tidak bisa dilihat. Petugas yang dinonaktifkan langsung tidak bisa masuk, tapi semua cap yang pernah diberikannya tetap tercatat atas namanya.</div>';
+  $('#pg').innerHTML=h;
+
+  $('#pg').addEventListener('click',function(e){
+    var a=e.target.closest('[data-add="petugas"]'); if(a)return formPetugas(null);
+    var u=e.target.closest('[data-pubah]'); if(u)return formPetugas(u.dataset.pubah);
+    var k=e.target.closest('[data-ppin]'); if(k)return formPin(k.dataset.ppin);
+    var t=e.target.closest('[data-ptog]'); if(t)return togglePetugas(t.dataset.ptog);
+    var d=e.target.closest('[data-phapus]'); if(d)return hapusPetugas(d.dataset.phapus);
+  });
+}
+
+function formPetugas(id){
+  var p=id?D.petugas.filter(function(x){return x.id===id})[0]:null;
+  var tokoList=D.toko.filter(function(t){return S.brand==='semua'||t.brand===S.brand});
+  if(p)tokoList=D.toko;
+  var opsi=tokoList.map(function(t){
+    return '<option value="'+t.id+'"'+((p&&p.toko===t.id)?' selected':'')+'>'+esc(t.kode)+' · '+esc(t.nama)+' ('+esc(namaBrand(t.brand))+')'+(t.aktif?'':' — nonaktif')+'</option>';
+  }).join('');
+  var peranOpsi=Object.keys(PERAN).map(function(k){return '<option value="'+k+'"'+((p&&p.peran===k)?' selected':'')+'>'+PERAN[k]+'</option>'}).join('');
+  bukaDialog({
+    judul:p?'Ubah petugas':'Tambah petugas',
+    sub:p?'':'Akun ini menempel pada satu cabang. Setiap cap yang diberikan tercatat atas namanya.',
+    isi:'<div class="field"><label for="pNama">Nama petugas</label><input id="pNama" maxlength="48" placeholder="Rina" value="'+esc(p?p.nama:'')+'"></div>'+
+      '<div class="field"><label for="pToko">Cabang</label><select id="pToko">'+opsi+'</select></div>'+
+      '<div class="field"><label for="pPeran">Peran</label><select id="pPeran">'+peranOpsi+'</select>'+
+        '<p class="hint">Kasir memberi cap dan menukar reward. Kepala cabang juga melihat laporan cabangnya.</p></div>'+
+      (p?'':'<div class="field"><label for="pPin">PIN awal</label><input id="pPin" type="password" inputmode="numeric" maxlength="6" placeholder="6 angka"><p class="hint">Diberikan ke petugas, lalu dia bisa menggantinya sendiri.</p></div>')+
+      '<p class="err" id="pErr" hidden></p>',
+    lanjut:p?'Simpan perubahan':'Tambah petugas',
+    jalan:function(){
+      var nama=$('#pNama').value.trim().replace(/\s+/g,' ');
+      var toko=$('#pToko').value, peran=$('#pPeran').value, err=$('#pErr');
+      function gagal(m){err.textContent=m;err.hidden=false;return false}
+      if(!nama)return gagal('Nama petugas wajib diisi.');
+      if(!toko)return gagal('Pilih cabang.');
+      var t=D.toko.filter(function(x){return x.id===toko})[0];
+      if(p){
+        p.nama=nama;p.toko=toko;p.brand=t.brand;p.peran=peran;
+        simpan();render();toast('Data '+nama+' diperbarui.');
+      }else{
+        var pin=$('#pPin').value.replace(/\D/g,'');
+        if(pin.length!==6)return gagal('PIN awal berisi 6 angka.');
+        D.petugas.push({id:uid(),brand:t.brand,toko:toko,nama:nama,peran:peran,aktif:true,pinDiatur:true,dibuat:Date.now()});
+        simpan();render();toast('Petugas '+nama+' ditambahkan.');
+      }
+      return true;
+    }
+  });
+}
+
+function formPin(id){
+  var p=D.petugas.filter(function(x){return x.id===id})[0]; if(!p)return;
+  bukaDialog({
+    judul:'Atur ulang PIN '+p.nama,
+    sub:'PIN lama langsung tidak berlaku begitu disimpan.',
+    isi:'<div class="field"><label for="nPin">PIN baru</label><input id="nPin" type="password" inputmode="numeric" maxlength="6" placeholder="6 angka"></div>'+
+      '<div class="field"><label for="nPin2">Ulangi PIN baru</label><input id="nPin2" type="password" inputmode="numeric" maxlength="6" placeholder="6 angka"></div>'+
+      '<p class="err" id="nErr" hidden></p>',
+    lanjut:'Simpan PIN',
+    jalan:function(){
+      var a=$('#nPin').value.replace(/\D/g,''), b=$('#nPin2').value.replace(/\D/g,''), err=$('#nErr');
+      function gagal(m){err.textContent=m;err.hidden=false;return false}
+      if(a.length!==6)return gagal('PIN berisi 6 angka.');
+      if(a!==b)return gagal('Kedua PIN belum sama.');
+      p.pinDiatur=true;simpan();render();toast('PIN '+p.nama+' diperbarui.');
+      return true;
+    }
+  });
+}
+
+function togglePetugas(id){
+  var p=D.petugas.filter(function(x){return x.id===id})[0]; if(!p)return;
+  if(p.aktif){
+    konfirmasi({
+      judul:'Nonaktifkan '+p.nama+'?',
+      pesan:'Dia langsung tidak bisa masuk ke layar kasir, termasuk di perangkat yang sedang dipakainya.',
+      tambahan:'<div class="infobox">Semua cap yang pernah diberikannya tetap tercatat atas namanya.</div>',
+      lanjut:'Nonaktifkan',
+      jalan:function(){p.aktif=false;simpan();render();toast(p.nama+' dinonaktifkan.')}
+    });
+  }else{
+    bukaDialog({judul:'Aktifkan kembali '+p.nama+'?',sub:'Dia bisa masuk lagi dengan PIN yang lama.',isi:'',lanjut:'Aktifkan',
+      jalan:function(){p.aktif=true;simpan();render();toast(p.nama+' diaktifkan.');return true}});
+  }
+}
+
+function hapusPetugas(id){
+  var p=D.petugas.filter(function(x){return x.id===id})[0]; if(!p)return;
+  konfirmasi({
+    judul:'Hapus akun '+p.nama+'?',
+    pesan:'Akun ini dihapus permanen dan tidak bisa dikembalikan.',
+    tambahan:'<div class="infobox">Kalau orangnya hanya berhenti sementara atau pindah tugas, lebih baik dinonaktifkan saja. Riwayat cap tetap menyebut namanya, baik dihapus maupun dinonaktifkan.</div>',
+    lanjut:'Hapus akun',
+    jalan:function(){D.petugas=D.petugas.filter(function(x){return x.id!==p.id});simpan();render();toast('Akun '+p.nama+' dihapus.')}
+  });
+}
+
+/* =========================================================
+   Member — satu orang, kartu per brand
+   ========================================================= */
+function kartuTampil(o){
+  return S.brand==='semua'?o.kartu:o.kartu.filter(function(k){return brandDariKartu(k)===S.brand});
+}
+function orangTersaring(){
+  var q=(S.cari||'').toLowerCase().replace(/[\s-]/g,'');
+  var out=daftarOrang().filter(function(o){return kartuTampil(o).length>0});
+  if(S.tokoFilter)out=out.filter(function(o){
+    return kartuTampil(o).some(function(k){var t=tokoDariKartu(k);return t&&t.id===S.tokoFilter});
+  });
+  if(q)out=out.filter(function(o){
+    if(o.nama.toLowerCase().indexOf(q)>-1)return true;
+    if(o.telp.indexOf(q)>-1)return true;
+    return kartuTampil(o).some(function(k){return String(k.code||'').toLowerCase().indexOf(q)>-1});
+  });
+  return out.sort(function(a,b){return b.terbaru-a.terbaru});
+}
+function lencanaKartu(k){
+  var b=D.brand.filter(function(x){return x.id===brandDariKartu(k)})[0];
+  var w=(b&&b.warna)||{utama:'#5B6B7C'};
+  var t=tokoDariKartu(k);
+  return '<span class="kartu-lencana" style="border-color:'+esc(w.utama)+'33">'+
+    '<span class="titik" style="background:'+esc(w.utama)+'"></span>'+
+    '<b>'+esc(b?b.nama:'—')+'</b> Lv '+lvl(k)+' dari '+LV+
+    (t?' · '+esc(t.kode):'')+
+    (kartuAktif(k)?'':' · nonaktif')+'</span>';
+}
+function halMember(){
+  $('#pgTitle').textContent='Member';
+  $('#pgSub').textContent='Satu orang dikenali dari nomor WhatsApp. Kartu, level, dan riwayatnya berdiri sendiri di tiap brand.';
+  if(!D.kartu.length){
+    $('#pg').innerHTML='<div class="card">'+kosong('Belum ada data member',
+      'Dashboard ini membaca kartu dari server tiap brand. Isi alamat servernya dulu di halaman Sumber data, atau pakai data contoh untuk mencoba tampilannya.',
+      'data','Buka Sumber data')+'</div>';
+    return;
+  }
+  var tokoOpsi='<option value="">Semua cabang</option>'+
+    filterBrand(D.toko).map(function(t){
+      return '<option value="'+t.id+'"'+(S.tokoFilter===t.id?' selected':'')+'>'+esc(t.kode+' · '+t.nama)+'</option>';
+    }).join('');
+  var h='<div class="card"><div class="hd" style="gap:10px;flex-wrap:wrap">'+
+      '<input id="mCari" placeholder="Cari nama, nomor, atau ID kartu" value="'+esc(S.cari||'')+'" style="flex:1 1 220px;min-width:0">'+
+      '<select id="mToko" style="flex:0 1 220px">'+tokoOpsi+'</select>'+
+      '<button class="btn sm" type="button" id="mEkspor">Ekspor CSV</button>'+
+    '</div>'+
+    '<table><thead><tr><th>Orang</th><th>Kartu</th><th class="r">Token</th><th>Terakhir aktif</th><th class="r">Tindakan</th></tr></thead>'+
+    '<tbody id="mBody"></tbody></table></div>'+
+    '<p class="sub" style="margin-top:14px" id="mKaki"></p>';
+  $('#pg').innerHTML=h;
+  isiBaris();
+
+  $('#mCari').addEventListener('input',function(){S.cari=this.value;isiBaris()});
+  $('#mToko').addEventListener('change',function(){S.tokoFilter=this.value;isiBaris()});
+  $('#mEkspor').addEventListener('click',eksporCsv);
+  $('#mBody').addEventListener('click',function(e){
+    var b=e.target.closest('[data-lihat]'); if(!b)return;
+    detailOrang(b.dataset.lihat);
+  });
+}
+function isiBaris(){
+  var list=orangTersaring(), h='';
+  list.slice(0,300).forEach(function(o){
+    var ks=kartuTampil(o);
+    var tok=ks.reduce(function(a,k){return a+(k.tokens||0)},0);
+    h+='<tr><td><b>'+esc(o.nama)+'</b><div class="sub">'+esc(telpTampil(o.telp))+'</div></td>'+
+      '<td>'+ks.map(lencanaKartu).join(' ')+'</td>'+
+      '<td class="r">'+tok+'</td>'+
+      '<td class="sub">'+(o.terbaru?tgl(o.terbaru):'—')+'</td>'+
+      '<td class="r"><button class="btn sm" type="button" data-lihat="'+esc(o.telp)+'">Lihat</button></td></tr>';
+  });
+  if(!h)h='<tr><td colspan="5" class="sub" style="padding:22px 0">Tidak ada member yang cocok dengan pencarian.</td></tr>';
+  $('#mBody').innerHTML=h;
+  var kaki=$('#mKaki');
+  if(kaki)kaki.textContent=list.length+' orang'+(list.length>300?', 300 teratas ditampilkan':'')+
+    ' · '+D.kartu.length+' kartu tersimpan di salinan ini.';
+}
+
+var JENIS={join:'Kartu dibuat',pour:'Dapat cap',redeem:'Tukar reward',adjust:'Penyesuaian',tier:'Naik tier'};
+function detailOrang(telp){
+  var o=daftarOrang().filter(function(x){return x.telp===telp})[0];
+  if(!o)return;
+  var ks=kartuTampil(o);
+  var isi='<div class="infobox" style="margin-bottom:12px">Nomor '+esc(telpTampil(o.telp))+
+    ' · '+ks.length+' kartu di bawah ACK Group. Tiap kartu dihitung terpisah.</div>';
+  ks.forEach(function(k){
+    var b=D.brand.filter(function(x){return x.id===brandDariKartu(k)})[0];
+    var t=tokoDariKartu(k);
+    var log=(k.log||[]).slice(0,6);
+    isi+='<div class="kartu-blok">'+
+      '<div class="kartu-hd"><b>'+esc(b?b.nama:'Brand lain')+'</b>'+
+        (kartuAktif(k)?'<span class="pill on"><span class="dot"></span>Aktif</span>':'<span class="pill off"><span class="dot"></span>Nonaktif</span>')+'</div>'+
+      '<div class="kartu-grid">'+
+        '<div><span>ID kartu</span><b>'+esc(fmtKode(k.code))+'</b></div>'+
+        '<div><span>Cabang asal</span><b>'+esc(t?t.nama:'Belum tercatat')+'</b></div>'+
+        '<div><span>Level</span><b>'+lvl(k)+' dari '+LV+'</b></div>'+
+        '<div><span>Tier</span><b>'+esc(tierNama(k))+'</b></div>'+
+        '<div><span>Token belum dipakai</span><b>'+(k.tokens||0)+'</b></div>'+
+        '<div><span>Reward ditukar</span><b>'+((k.claimed||[]).length)+'</b></div>'+
+      '</div>'+
+      (log.length?'<ul class="riwayat">'+log.map(function(l){
+        return '<li><span>'+esc(JENIS[l.type]||l.type)+(l.level?' · level '+l.level:'')+'</span><i>'+esc(tgl(l.t))+'</i></li>';
+      }).join('')+'</ul>':'<p class="sub" style="margin-top:8px">Belum ada riwayat di kartu ini.</p>')+
+      '<div class="rowact" style="margin-top:12px">'+
+        '<button class="btn sm" type="button" data-kartutog="'+esc(k.code)+'">'+(kartuAktif(k)?'Nonaktifkan kartu':'Aktifkan kartu')+'</button>'+
+      '</div>'+
+    '</div>';
+  });
+  bukaDialog({judul:o.nama,sub:'Kartu member lintas brand',isi:isi,hanyaTutup:true});
+  $('#dlgBody').addEventListener('click',function(e){
+    var b=e.target.closest('[data-kartutog]'); if(!b)return;
+    tutupDialog();
+    toggleKartu(b.dataset.kartutog);
+  });
+}
+function fmtKode(c){
+  c=String(c||'');
+  if(/^DT/.test(c)&&c.length>5)return c.slice(0,5)+'-'+c.slice(5);
+  return c.length>2?c.slice(0,2)+'-'+c.slice(2):c;
+}
+
+function toggleKartu(code){
+  var k=D.kartu.filter(function(x){return x.code===code})[0]; if(!k)return;
+  var brandId=brandDariKartu(k);
+  if(!urlBrand(brandId)){
+    bukaDialog({judul:'Belum tersambung ke server '+namaBrand(brandId),
+      sub:'Perubahan kartu harus dikerjakan di server, bukan di salinan ini.',
+      isi:'<div class="infobox">Salinan di dashboard hanya untuk dibaca. Isi alamat server brand ini di halaman Sumber data, lalu coba lagi.</div>',
+      lanjut:'Buka Sumber data',
+      jalan:function(){S.page='data';render();return true}});
+    return;
+  }
+  if(kartuAktif(k)){
+    konfirmasi({
+      judul:'Nonaktifkan kartu '+fmtKode(k.code)+'?',
+      pesan:'Pemilik kartu tidak bisa lagi masuk dan tidak bisa menerima cap baru di brand ini.',
+      tambahan:'<div class="infobox">Level, token, dan riwayatnya tidak dihapus. Kartunya di brand lain tidak terpengaruh, dan kartu ini bisa diaktifkan lagi kapan saja.</div>',
+      lanjut:'Nonaktifkan kartu',
+      jalan:function(){simpanKartu(k,{active:false})}
+    });
+  }else{
+    bukaDialog({judul:'Aktifkan lagi kartu '+fmtKode(k.code)+'?',
+      sub:'Pemiliknya bisa masuk dan menerima cap lagi.',isi:'',lanjut:'Aktifkan',
+      jalan:function(){simpanKartu(k,{active:true});return true}});
+  }
+}
+async function simpanKartu(k,ubah){
+  var brandId=brandDariKartu(k);
+  try{
+    var tok=sesi.tok;
+    if(!tok){toast('Masukkan PIN manajemen di halaman Sumber data dulu.');S.page='data';render();return}
+    var doc=JSON.parse(JSON.stringify(k));
+    if(ubah.active===false)doc.active=false; else delete doc.active;
+    var j=await panggil(brandId,{a:'member.set',st:tok,code:k.code,doc:doc,base:k.updatedAt});
+    if(j.doc){
+      D.kartu=D.kartu.map(function(x){return x.code===k.code?j.doc:x});
+      simpan();render();
+      toast('Kartu '+fmtKode(k.code)+(ubah.active===false?' dinonaktifkan.':' diaktifkan.'));
+    }
+  }catch(e){toast(e.message||'Gagal menyimpan ke server.')}
+}
+
+function eksporCsv(){
+  var baris=[['nama','nomor','brand','id_kartu','cabang_asal','level','tier','token','reward_ditukar','status','terakhir_aktif']];
+  orangTersaring().forEach(function(o){
+    kartuTampil(o).forEach(function(k){
+      var t=tokoDariKartu(k);
+      baris.push([o.nama,telpTampil(o.telp),namaBrand(brandDariKartu(k)),fmtKode(k.code),
+        t?t.nama:'',lvl(k),tierNama(k),k.tokens||0,(k.claimed||[]).length,
+        kartuAktif(k)?'aktif':'nonaktif',k.updatedAt?new Date(k.updatedAt).toISOString():'']);
+    });
+  });
+  var csv=baris.map(function(r){return r.map(function(v){
+    v=String(v==null?'':v); return /[",\n;]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
+  }).join(';')}).join('\n');
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download='member-ack-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);
+  toast('Berkas CSV diunduh.');
+}
+
+/* =========================================================
+   Sumber data — satu alamat server per brand
+   ========================================================= */
+var sesi={tok:''};   /* token manajemen, hanya tersimpan di memori */
+function urlServer(){return D.server.url||''}
+function urlBrand(){return urlServer()}
+function kodeBrand(id){var b=D.brand.filter(function(x){return x.id===id})[0];return b?b.kode:''}
+var GALAT={bad_pin:'PIN manajemen ditolak server.',locked:'Terlalu banyak percobaan. Tunggu beberapa menit.',
+  unknown_action:'Versi server belum mendukung permintaan ini.',not_found:'Data tidak ditemukan di server.',
+  auth:'Sesi manajemen sudah berakhir. Masukkan PIN lagi.'};
+async function panggil(brandId,body){
+  var url=urlServer();
+  if(!url)throw new Error('Alamat server ACK Group belum diisi.');
+  if(brandId)body.b=kodeBrand(brandId);
+  var r;
+  try{
+    r=await fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(body),redirect:'follow'});
+  }catch(e){throw new Error('Tidak bisa menghubungi server. Periksa alamat dan koneksi.')}
+  if(!r.ok)throw new Error('Server menjawab dengan kode '+r.status+'.');
+  var j;
+  try{j=await r.json()}catch(e){throw new Error('Jawaban server tidak terbaca. Pastikan alamatnya yang berakhiran /exec.')}
+  if(j&&j.e)throw new Error(GALAT[j.e]||('Server menolak: '+j.e));
+  return j;
+}
+/** Satu tarikan mengambil kartu semua brand sekaligus, karena backendnya
+ *  memang satu. PIN manajemen berlaku untuk seluruh holding. */
+async function tarikSemua(pin){
+  if(pin){
+    var s=await panggil(null,{a:'staff.login',gate:'mgmt',pin:pin});
+    if(!s.tok)throw new Error('PIN manajemen ditolak server.');
+    sesi.tok=s.tok;
+  }
+  if(!sesi.tok)throw new Error('Masukkan PIN manajemen dulu.');
+  var j=await panggil(null,{a:'holding.sync',t:sesi.tok});
+  var semua=[];
+  Object.keys(j.ms||{}).forEach(function(kode){
+    (j.ms[kode]||[]).forEach(function(k){if(k&&k.code)semua.push(k)});
+  });
+  D.kartu=semua;
+  D.server.ditarik=Date.now(); D.server.jumlah=semua.length; D.server.sebagian=!!j.sebagian;
+  simpan();
+  return semua.length;
+}
+
+/** Daftar cabang di dashboard ini adalah sumber kebenaran. Dikirim ke Config
+ *  brand yang bersangkutan supaya aplikasi brandnya memakai daftar yang sama. */
+async function kirimCabang(brandId){
+  if(!sesi.tok)throw new Error('Masukkan PIN manajemen dulu lewat Tarik data.');
+  var j=await panggil(brandId,{a:'sync',t:sesi.tok});
+  var cfg=j.cfg||{};
+  cfg.cabang=D.toko.filter(function(t){return t.brand===brandId}).map(function(t){
+    return {kode:t.kode,nama:t.nama,aktif:!!t.aktif};
+  });
+  await panggil(brandId,{a:'config.set',t:sesi.tok,cfg:cfg});
+  return cfg.cabang.length;
+}
+
+function halData(){
+  $('#pgTitle').textContent='Sumber data';
+  $('#pgSub').textContent='Semua brand memakai satu backend yang sama. Dashboard menarik salinan kartunya untuk dibaca di sini.';
+  var s=D.server;
+  var h='<div class="card" style="margin-bottom:14px"><div class="hd"><h3>Server ACK Group</h3>'+
+    (s.ditarik?'<span class="pill on"><span class="dot"></span>Ada salinan</span>':'<span class="pill off"><span class="dot"></span>Belum ditarik</span>')+
+    '</div><div class="bd" style="padding:4px 18px 18px">'+
+    '<div class="field"><label for="uSrv">Alamat aplikasi web (Apps Script)</label>'+
+      '<input id="uSrv" placeholder="https://script.google.com/macros/s/.../exec" value="'+esc(s.url||'')+'">'+
+      '<p class="hint">Alamat yang sama persis dengan yang dipakai aplikasi Temma dan DTOP. Satu backend untuk semua brand.</p></div>'+
+    '<div class="rowact">'+
+      '<button class="btn sm" type="button" id="simpanUrl">Simpan alamat</button>'+
+      '<button class="btn sm primary" type="button" id="tarikSemua">Tarik data semua brand</button>'+
+      (D.kartu.length?'<button class="btn sm" type="button" id="buangSemua">Hapus salinan</button>':'')+
+    '</div>'+
+    '<p class="sub" style="margin-top:10px">'+
+      (s.ditarik?(D.kartu.length+' kartu · terakhir ditarik '+tgl(s.ditarik)):'Belum pernah ditarik.')+
+      (s.sebagian?' · server membatasi 2000 kartu sekali tarik':'')+'</p>'+
+    '</div></div>';
+
+  h+='<div class="card" style="margin-bottom:14px"><div class="hd"><h3>Kirim daftar cabang ke brand</h3></div>'+
+    '<div class="bd" style="padding:4px 18px 18px">'+
+    '<p class="sub">Daftar cabang di dashboard ini yang dipakai aplikasi brandnya saat member memilih tempat mendaftar. Kirim ulang setiap kali kamu menambah, mengubah, atau menonaktifkan cabang.</p>'+
+    '<table style="margin-top:10px"><tbody>';
+  D.brand.forEach(function(b){
+    var n=D.toko.filter(function(t){return t.brand===b.id}).length;
+    h+='<tr><td><b>'+esc(b.nama)+'</b><div class="sub">'+n+' cabang terdaftar</div></td>'+
+      '<td class="r"><button class="btn sm" type="button" data-kirimcab="'+b.id+'"'+(n?'':' disabled')+'>Kirim ke server</button></td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  h+='<div class="card"><div class="hd"><h3>Data contoh</h3></div><div class="bd" style="padding:4px 18px 18px">'+
+    '<p class="sub">Untuk mencoba tampilan sebelum server tersambung. Data ini hanya ada di perangkat ini dan memakai cabang yang sudah kamu buat.</p>'+
+    '<div class="rowact" style="margin-top:12px">'+
+      '<button class="btn sm" type="button" id="demoIsi">Isi data contoh</button>'+
+      (D.kartu.length?'<button class="btn sm danger" type="button" id="demoHapus">Kosongkan semua salinan</button>':'')+
+    '</div></div></div>';
+  h+='<div class="infobox" style="margin-top:14px">PIN manajemen tidak disimpan. PIN itu berlaku untuk seluruh holding dan hanya dipakai selama dashboard ini terbuka. PIN kasir berbeda-beda tiap brand dan diatur di Sheet.</div>';
+  $('#pg').innerHTML=h;
+
+  $('#pg').addEventListener('click',function(e){
+    if(e.target.closest('#simpanUrl')){
+      var v=$('#uSrv').value.trim();
+      if(v&&!/^https:\/\/\S+$/i.test(v))return toast('Alamat harus diawali https://');
+      D.server.url=v; simpan(); render();
+      toast(v?'Alamat server disimpan.':'Alamat dikosongkan.');
+      return;
+    }
+    if(e.target.closest('#tarikSemua'))return mintaPinLaluTarik();
+    if(e.target.closest('#buangSemua'))return hapusSemuaSalinan();
+    var kc=e.target.closest('[data-kirimcab]');
+    if(kc)return kirimCabangKe(kc.dataset.kirimcab);
+    if(e.target.closest('#demoIsi'))return isiContoh();
+    if(e.target.closest('#demoHapus'))return hapusSemuaSalinan();
+  });
+}
+
+function mintaPinLaluTarik(){
+  if(!urlServer())return toast('Isi alamat server dulu, lalu simpan.');
+  bukaDialog({
+    judul:'Tarik data semua brand',
+    sub:'PIN manajemen dipakai sekali untuk membuka sesi, tidak disimpan.',
+    isi:'<div class="field"><label for="tPin">PIN manajemen ACK Group</label>'+
+      '<input id="tPin" type="password" inputmode="numeric" maxlength="12" placeholder="••••"></div>'+
+      '<p class="err" id="tErr" hidden></p>',
+    lanjut:'Tarik data',
+    jalan:function(){
+      var pin=$('#tPin').value.trim();
+      if(!pin){$('#tErr').textContent='PIN wajib diisi.';$('#tErr').hidden=false;return false}
+      toast('Menarik data…');
+      tarikSemua(pin).then(function(n){
+        render();toast(n+' kartu berhasil ditarik dari server.');
+      }).catch(function(err){toast(err.message||'Gagal menarik data.')});
+      return true;
+    }
+  });
+}
+function kirimCabangKe(brandId){
+  if(!urlServer())return toast('Isi alamat server dulu, lalu simpan.');
+  var n=D.toko.filter(function(t){return t.brand===brandId}).length;
+  bukaDialog({
+    judul:'Kirim daftar cabang '+namaBrand(brandId)+'?',
+    sub:'Daftar di dashboard ini akan menggantikan daftar cabang di server.',
+    isi:'<div class="infobox">'+n+' cabang dikirim. Setelah ini, member baru '+esc(namaBrand(brandId))+
+      ' hanya bisa memilih cabang dari daftar tersebut, dan cabang nonaktif tidak muncul sebagai pilihan.</div>',
+    lanjut:'Kirim sekarang',
+    jalan:function(){
+      kirimCabang(brandId).then(function(j){
+        toast(j+' cabang '+namaBrand(brandId)+' terkirim ke server.');
+      }).catch(function(err){toast(err.message||'Gagal mengirim daftar cabang.')});
+      return true;
+    }
+  });
+}
+function hapusSemuaSalinan(){
+  konfirmasi({
+    judul:'Kosongkan semua salinan kartu?',
+    pesan:'Seluruh salinan kartu dari semua brand dihapus dari dashboard ini.',
+    tambahan:'<div class="infobox">Data asli di server tiap brand tetap utuh. Cabang, petugas, dan brand tidak ikut terhapus.</div>',
+    lanjut:'Kosongkan',
+    jalan:function(){
+      D.kartu=[];
+      D.server={url:D.server.url||''};
+      simpan();render();toast('Semua salinan dikosongkan.');
+    }
+  });
+}
+
+/* Data contoh: memakai cabang yang sudah dibuat, supaya kode cabang pada ID
+   kartu betul-betul cocok dengan daftar cabang. */
+function isiContoh(){
+  var toko=D.toko.filter(function(t){return t.aktif});
+  if(!toko.length)return toast('Tambahkan minimal satu cabang dulu di halaman Cabang.');
+  var ALFA='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function acak(n){var s='';for(var i=0;i<n;i++)s+=ALFA[Math.floor(Math.random()*ALFA.length)];return s}
+  var nama=['Budi Santoso','Ayu Lestari','Dani Pratama','Siti Rahma','Rizky Maulana','Nadia Putri',
+            'Agus Salim','Mega Wulandari','Fajar Nugroho','Tari Anggraini'];
+  var now=Date.now(), H=86400000, baru=[];
+  nama.forEach(function(nm,i){
+    var telp='62812'+String(10000000+i*137).slice(0,8);
+    var jml=(i%3===0)?2:1;           /* sebagian orang punya kartu di dua brand */
+    var dipilih=D.brand.slice(0,jml);
+    dipilih.forEach(function(b,j){
+      var t=toko.filter(function(x){return x.brand===b.id})[0];
+      if(!t&&b.kode!=='TM')return;
+      var kode=b.kode+(b.kode==='TM'?'':(t?t.kode:'SKB'))+acak(5);
+      var stamps=(i*3+j*4)%11, tokens=(i+j)%4;
+      var log=[{t:now-(30-i)*H,type:'join',level:0}];
+      for(var s=1;s<=stamps;s++)log.unshift({t:now-(24-s)*H,type:'pour',level:s});
+      baru.push({code:kode,phone:telp,name:nm,email:'',stamps:stamps,tokens:tokens,
+        claimed:stamps>=5?[5]:[],tier:Math.min(3,Math.floor(i/4)),totalSpent:stamps*25000,
+        visits:stamps,rewards:stamps>=5?1:0,createdAt:now-(30-i)*H,
+        updatedAt:now-i*3600000,log:log});
+    });
+  });
+  D.kartu=baru;
+  D.server.ditarik=now; D.server.jumlah=baru.length; D.server.contoh=true;
+  simpan();S.page='member';render();
+  toast(baru.length+' kartu contoh dibuat.');
+}
+
+/* ---------- Brand ---------- */
+function halBrand(){
+  $('#pgTitle').textContent='Brand';
+  $('#pgSub').textContent='Brand yang bernaung di bawah ACK Group.';
+  var h='<div class="card"><table><thead><tr><th style="width:92px">Kode</th><th>Nama brand</th><th>Warna</th><th class="r">Cabang</th><th class="r">Petugas</th><th class="r">Tindakan</th></tr></thead><tbody>';
+  D.brand.forEach(function(b){
+    var w=b.warna||{utama:'#DEE4EB',aksen:'#DEE4EB'};
+    h+='<tr><td><span class="kode">'+esc(b.kode)+'</span></td>'+
+      '<td><b>'+esc(b.nama)+'</b><div class="sub">Awalan ID member: '+esc(b.kode)+'</div></td>'+
+      '<td><span style="display:inline-flex;gap:5px;align-items:center">'+
+        '<span style="width:34px;height:20px;border-radius:5px;background:'+esc(w.utama)+';border:1px solid rgba(0,0,0,.08)"></span>'+
+        '<span style="width:16px;height:20px;border-radius:5px;background:'+esc(w.aksen)+';border:1px solid rgba(0,0,0,.08)"></span>'+
+      '</span><div class="sub">'+esc(w.utama)+' · '+esc(w.aksen)+'</div></td>'+
+      '<td class="r">'+D.toko.filter(function(t){return t.brand===b.id}).length+'</td>'+
+      '<td class="r">'+D.petugas.filter(function(p){return p.brand===b.id}).length+'</td>'+
+      '<td class="r"><button class="btn sm" type="button" data-bubah="'+b.id+'">Ubah nama</button></td></tr>';
+  });
+  h+='</tbody></table></div>';
+  h+='<div class="infobox" style="margin-top:14px">Kode brand tidak bisa diubah karena menempel pada ID semua member. Menambah brand baru dikerjakan bersamaan dengan pembuatan aplikasinya, jadi belum ada tombolnya di sini.</div>';
+  $('#pg').innerHTML=h;
+  $('#pg').addEventListener('click',function(e){
+    var u=e.target.closest('[data-bubah]'); if(!u)return;
+    var b=D.brand.filter(function(x){return x.id===u.dataset.bubah})[0];
+    bukaDialog({judul:'Ubah nama '+b.nama,sub:'Nama ini tampil di dashboard dan laporan.',
+      isi:'<div class="field"><label for="bNama">Nama brand</label><input id="bNama" maxlength="40" value="'+esc(b.nama)+'"></div><p class="err" id="bErr" hidden></p>',
+      lanjut:'Simpan',
+      jalan:function(){
+        var v=$('#bNama').value.trim();
+        if(!v){$('#bErr').textContent='Nama brand wajib diisi.';$('#bErr').hidden=false;return false}
+        b.nama=v;simpan();render();toast('Nama brand diperbarui.');return true;
+      }});
+  });
+}
+
+/* =========================================================
+   Gerbang masuk
+   ========================================================= */
+function pinTersimpan(){return ls.get(PINKEY)||'1234'}
+$('#gateForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var v=$('#gatePin').value.trim(), err=$('#gateErr');
+  if(v!==pinTersimpan()){err.textContent='PIN salah. Coba lagi.';err.hidden=false;$('#gatePin').select();return}
+  ls.set(SESKEY,'1');masuk();
+});
+function masuk(){$('#gate').hidden=true;$('#app').hidden=false;render()}
+if(ls.get(SESKEY)==='1')masuk(); else setTimeout(function(){$('#gatePin').focus()},80);
+</script>
+</body>
+</html>
