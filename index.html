@@ -135,15 +135,69 @@ dialog::backdrop{background:rgba(22,33,46,.42)}
   font-weight:600;font-size:14.5px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .18s, transform .18s;z-index:60;max-width:90vw}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(-4px)}
 
+/* ---------- responsif: HP dan tablet ---------- */
+.mbar,.scrim{display:none}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 @media (max-width:880px){
   .shell{grid-template-columns:1fr}
-  .side{position:static;height:auto;flex-direction:row;align-items:center;gap:14px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px 14px}
-  .side .foot{margin-top:0;border-top:0;padding-top:0}
-  nav{grid-auto-flow:column;gap:4px}
-  nav button span{display:none}
-  .logo span{display:none}
-  main{padding:20px 16px 64px}
-  th:nth-child(3),td:nth-child(3){display:none}
+  .mbar{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:40;height:56px;padding:0 12px;background:var(--paper);border-bottom:1px solid var(--line)}
+  .mbar .burger{width:42px;height:42px;border-radius:11px;border:1px solid var(--line);background:var(--paper);display:grid;place-items:center;cursor:pointer;padding:0}
+  .mbar .burger svg{width:22px;height:22px}
+  .mbar .sq{width:30px;height:30px;border-radius:8px;background:var(--brandc);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+  .mbar .jdl{font-weight:700;font-size:16px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .side{position:fixed;left:0;top:0;bottom:0;width:min(84vw,300px);height:100dvh;z-index:60;flex-direction:column;align-items:stretch;gap:22px;overflow-y:auto;
+    border-right:1px solid var(--line);border-bottom:0;padding:20px 16px;transform:translateX(-102%);transition:transform .22s ease;box-shadow:none;visibility:hidden}
+  body.navopen .side{transform:none;visibility:visible;box-shadow:0 0 60px rgba(22,33,46,.35)}
+  .scrim{position:fixed;inset:0;z-index:55;background:rgba(22,33,46,.45);opacity:0;pointer-events:none;transition:opacity .2s;display:block}
+  body.navopen .scrim{opacity:1;pointer-events:auto}
+  body.navopen{overflow:hidden}
+  .side .foot{margin-top:auto;border-top:1px solid var(--line);padding-top:14px}
+  nav{grid-auto-flow:row;gap:3px}
+  nav button{padding:13px 12px;font-size:15.5px}
+  main{padding:18px 14px 80px;max-width:100%;overflow-x:hidden}
+  .topbar{gap:12px;margin-bottom:16px}
+  .topbar .t{min-width:0;flex:1 1 100%}
+  .topbar h2{font-size:22px}
+  #brandSeg{max-width:100%;overflow-x:auto}
+  #addBtn{flex:1 1 100%;padding:12px}
+  .card .hd{flex-wrap:wrap;padding:14px}
+  .stats{grid-template-columns:repeat(2,1fr);gap:10px}
+  .stat{padding:13px 14px}.stat b{font-size:22px}
+  .two{grid-template-columns:1fr}
+  input,select,textarea{font-size:16px!important}
+  #toast{bottom:18px;max-width:92vw}
+}
+@media (max-width:720px){
+  /* tabel menjadi daftar kartu: tidak ada yang terpotong atau perlu digeser */
+  .card table,.card thead,.card tbody,.card tr,.card td,.dtab table,.dtab tbody,.dtab tr,.dtab td{display:block;width:100%}
+  .card thead{display:none}
+  .card table{border:0}
+  .card tbody tr{padding:12px 14px;border-bottom:1px solid var(--line)}
+  .card tbody tr:last-child{border-bottom:0}
+  .card td{border:0;padding:4px 0;text-align:left!important;display:flex;justify-content:space-between;gap:14px;align-items:flex-start;width:auto;min-width:0}
+  .card td::before{content:attr(data-l);flex:none;max-width:42%;color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding-top:2px}
+  .card td[data-l=""]::before,.card td:not([data-l])::before{display:none}
+  .card td>*{min-width:0;overflow-wrap:anywhere}
+  .card td:first-child{font-weight:600}
+  .card td .rowact,.card td:last-child .rowact{justify-content:flex-start}
+  .card td.r{justify-content:space-between}
+  .tscroll{overflow:visible}
+  .card .hd .btn{flex:1 1 auto}
+  .empty{padding:36px 16px}
+}
+@media (max-width:420px){
+  .gate form{padding:24px 20px}
+  .seg button{padding:7px 10px;font-size:13.5px}
+}
+/* dialog di HP: hampir selebar layar, isi bisa digulir, tombol penuh */
+@media (max-width:640px){
+  dialog{width:100vw;max-width:100vw;margin:auto 0 0;padding:0}
+  .sheet{width:100%;border-radius:18px 18px 0 0;max-height:92dvh;display:flex;flex-direction:column}
+  #dlgForm{display:flex;flex-direction:column;min-height:0;flex:1}
+  .sheet .bd{overflow-y:auto;flex:1;min-height:0;padding:16px 16px 4px}
+  .sheet .hd{padding:18px 16px 0}
+  .sheet .ft{flex-wrap:wrap;padding:12px 16px calc(16px + env(safe-area-inset-bottom))}
+  .sheet .ft .btn{flex:1 1 40%}
 }
 /* ---- member ---- */
 .kartu-lencana{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;
@@ -200,7 +254,9 @@ dialog::backdrop{background:rgba(22,33,46,.42)}
 
 <!-- ============ aplikasi ============ -->
 <div class="shell" id="app" hidden>
-  <aside class="side">
+  <header class="mbar"><button class="burger" id="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="sq" aria-hidden="true">ACK</div><div class="jdl" id="mbarJdl">ACK Group</div></header>
+  <div class="scrim" id="scrim"></div>
+  <aside class="side" id="sidebar">
     <div class="logo"><div class="sq" aria-hidden="true">ACK</div><div><b>ACK Group</b><span>Dashboard holding</span></div></div>
     <nav id="nav" aria-label="Menu utama">
       <button data-page="ringkasan" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10"/><path d="M10 19V5"/><path d="M16 19v-6"/><path d="M22 19H2"/></svg><span>Ringkasan</span></button>
@@ -1838,6 +1894,39 @@ $('#instNanti').addEventListener('click',function(){ls.set('ack:nanti','1');sega
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
   window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
 }
+
+
+/* ---------- responsif: burger menu dan tabel kartu di HP ---------- */
+(function(){
+  var b=document.getElementById('burger'),sc=document.getElementById('scrim');
+  if(!b)return;
+  function buka(v){document.body.classList.toggle('navopen',v);b.setAttribute('aria-expanded',String(v));b.setAttribute('aria-label',v?'Tutup menu':'Buka menu')}
+  b.addEventListener('click',function(){buka(!document.body.classList.contains('navopen'))});
+  sc.addEventListener('click',function(){buka(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')buka(false)});
+  document.getElementById('nav').addEventListener('click',function(e){if(e.target.closest('button[data-page]'))buka(false)});
+  var lg=document.getElementById('logoutBtn');if(lg)lg.addEventListener('click',function(){buka(false)});
+  window.addEventListener('resize',function(){if(window.innerWidth>880)buka(false)});
+  /* judul halaman di bar atas */
+  var jt=document.getElementById('pgTitle'),mj=document.getElementById('mbarJdl');
+  function judul(){if(jt&&mj)mj.textContent=jt.textContent||'ACK Group'}
+  if(jt)new MutationObserver(judul).observe(jt,{childList:true,characterData:true,subtree:true});
+  judul();
+  /* beri label kolom pada tiap sel supaya tabel bisa tampil sebagai kartu di layar kecil */
+  function labeli(root){
+    Array.prototype.forEach.call(root.querySelectorAll('table'),function(t){
+      var hs=Array.prototype.map.call(t.querySelectorAll('thead th'),function(h){return h.textContent.trim()});
+      if(!hs.length)return;
+      Array.prototype.forEach.call(t.querySelectorAll('tbody tr'),function(tr){
+        Array.prototype.forEach.call(tr.children,function(td,i){if(td.tagName==='TD'&&td.getAttribute('data-l')===null)td.setAttribute('data-l',hs[i]||'')});
+      });
+    });
+  }
+  var tm=null;
+  function tunda(){clearTimeout(tm);tm=setTimeout(function(){labeli(document.getElementById('pg'));labeli(document.getElementById('dlgBody'))},30)}
+  ['pg','dlgBody'].forEach(function(id){var el=document.getElementById(id);if(el)new MutationObserver(tunda).observe(el,{childList:true,subtree:true})});
+  tunda();
+})();
 
 function segarkanLatar(){
   var b=S.brand;
