@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#FFFFFF">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ACK Group">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>ACK Group</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,6 +159,25 @@ dialog::backdrop{background:rgba(22,33,46,.42)}
 .riwayat{list-style:none;margin:12px 0 0;padding:10px 0 0;border-top:1px solid var(--line)}
 .riwayat li{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:3px 0}
 .riwayat i{font-style:normal;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 16px}
+.tset{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 12px}
+.tset legend{font-weight:700;padding:0 6px}
+.mrow2{display:grid;grid-template-columns:120px 1fr;gap:8px;margin-bottom:8px}
+.mrow2 select,.mrow2 input,.field select,.field textarea{border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:var(--paper);width:100%;font:inherit}
+.thumbs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.thumb span{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.thumb img{width:100%;aspect-ratio:1.586;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:#fff}
+.thumb-kosong{display:grid;place-items:center;aspect-ratio:1.586;border-radius:8px;border:1px dashed var(--line);color:var(--muted);font-size:12.5px;background:var(--surface)}
+.cek{display:flex;align-items:center;gap:8px;font-weight:500;font-size:14px;margin:4px 0}
+.cek input{width:auto}
+.cekrow{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:4px}
+.pickbox{max-height:200px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.posterbox{border:1px dashed var(--line);border-radius:12px;min-height:90px;display:grid;place-items:center;padding:8px;background:var(--surface)}
+.posterbox img{max-height:240px;max-width:100%;border-radius:8px}
+.tscroll{overflow-x:auto}
+.instbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--brand-soft);color:var(--brand-txt);border-bottom:1px solid var(--line);padding:10px 20px;font-size:14px}
+.instbar b{flex:1;min-width:200px}
+.instbar[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -182,16 +207,23 @@ dialog::backdrop{background:rgba(22,33,46,.42)}
       <button data-page="cabang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg><span>Cabang</span></button>
       <button data-page="petugas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.5"/><path d="M19 11h2"/><path d="M20 10v2"/></svg><span>Petugas</span></button>
       <button data-page="member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h5"/></svg><span>Member</span></button>
+      <button data-page="riwayat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/><path d="M12 7v5l3 2"/></svg>Riwayat</button>
+      <button data-page="aturan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Poin dan tier</button>
+      <button data-page="desain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>Desain kartu</button>
+      <button data-page="promo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 12 20l-8-8V4h8z"/><circle cx="8" cy="8" r="1.4"/></svg>Promo dan voucher</button>
+      <button data-page="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h7M9 17h5"/></svg>Log aktivitas</button>
       <button data-page="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v12H3z"/><path d="M8 7V5h8v2"/></svg><span>Brand</span></button>
       <button data-page="data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span>Sumber data</span></button>
     </nav>
     <div class="foot">
+      <button class="btn sm" id="installBtn" type="button" hidden style="justify-content:flex-start">Pasang aplikasi</button>
       <p class="who">Masuk sebagai manajemen</p>
       <button class="btn ghost sm" id="logoutBtn" style="justify-content:flex-start">Keluar</button>
     </div>
   </aside>
 
   <main>
+    <div class="instbar" id="instBar" hidden><b>Pasang dashboard ACK Group di perangkatmu agar terbuka langsung dari ikon.</b><button class="btn sm primary" type="button" id="instGo">Pasang</button><button class="btn sm ghost" type="button" id="instNanti">Nanti saja</button></div>
     <div class="topbar">
       <div class="t"><h2 id="pgTitle">Ringkasan</h2><p id="pgSub"></p></div>
       <div id="brandSeg" class="seg" role="group" aria-label="Pilih brand"></div>
@@ -369,7 +401,7 @@ $('#nav').addEventListener('click',function(e){
 });
 $('#logoutBtn').addEventListener('click',function(){
   konfirmasi({judul:'Keluar dari dashboard?',pesan:'Kamu perlu memasukkan PIN manajemen lagi untuk masuk.',lanjut:'Keluar',
-    jalan:function(){ls.del(SESKEY);location.reload()}});
+    jalan:function(){ls.del(SESKEY);hapusSesi();location.reload()}});
 });
 $('#addBtn').addEventListener('click',function(){
   if(S.page==='cabang')formCabang(null);
@@ -381,9 +413,9 @@ function filterBrand(arr){return S.brand==='semua'?arr:arr.filter(function(x){re
 
 function renderSeg(){
   var el=$('#brandSeg');
-  if(S.page==='ringkasan'||S.page==='brand'||S.page==='data'){el.hidden=true;return}
+  if(S.page==='ringkasan'||S.page==='brand'||S.page==='data'||S.page==='log'){el.hidden=true;return}
   el.hidden=false;
-  var h='<button type="button" data-b="semua" aria-pressed="'+(S.brand==='semua')+'">Semua brand</button>';
+  var h=SATU_BRAND[S.page]?'':'<button type="button" data-b="semua" aria-pressed="'+(S.brand==='semua')+'">Semua brand</button>';
   D.brand.forEach(function(b){h+='<button type="button" data-b="'+b.id+'" aria-pressed="'+(S.brand===b.id)+'">'+esc(b.nama)+'</button>'});
   el.innerHTML=h;
 }
@@ -408,6 +440,8 @@ function statusLive(){
     :'<span class="pill off"><span class="dot"></span>Tidak tersambung</span>';
 }
 function render(){
+  try{sessionStorage.setItem('ack:hal',S.page+'|'+S.brand)}catch(e){}
+  if(SATU_BRAND[S.page]&&S.brand==='semua')S.brand=D.brand[0].id;
   var tombolData=$('#nav [data-page="data"]');
   if(tombolData)tombolData.hidden=!!urlConfig();      /* mode server: tidak ada menu data, semuanya otomatis */
   if(urlConfig()&&S.page==='data')S.page='ringkasan';
@@ -427,6 +461,11 @@ function render(){
   if(S.page==='member')halMember();
   if(S.page==='brand')halBrand();
   if(S.page==='data')halData();
+  if(S.page==='riwayat')halRiwayat();
+  if(S.page==='aturan')halAturan();
+  if(S.page==='desain')halDesain();
+  if(S.page==='promo')halPromo();
+  if(S.page==='log')halLog();
 }
 
 /* ---------- Ringkasan ---------- */
@@ -956,7 +995,7 @@ function urlConfig(){return (window.ACK_CONFIG&&/^(https:\/\/|http:\/\/localhost
 function urlServer(){return urlConfig()||D.server.url||''}
 function urlBrand(){return urlServer()}
 function kodeBrand(id){var b=D.brand.filter(function(x){return x.id===id})[0];return b?b.kode:''}
-var GALAT={dipakai:'Cabang itu sudah punya member, jadi tidak bisa dihapus. Nonaktifkan saja.',bad:'Daftar cabang tidak valid.',bad_pin:'PIN manajemen ditolak server.',locked:'Terlalu banyak percobaan. Tunggu beberapa menit.',
+var GALAT={bad_pin:'PIN manajemen ditolak server.',locked:'Terlalu banyak percobaan. Tunggu beberapa menit.',
   unknown_action:'Versi server belum mendukung permintaan ini.',not_found:'Data tidak ditemukan di server.',
   auth:'Sesi manajemen sudah berakhir. Masukkan PIN lagi.'};
 async function panggil(brandId,body){
@@ -971,7 +1010,7 @@ async function panggil(brandId,body){
   if(!r.ok)throw new Error('Server menjawab dengan kode '+r.status+'.');
   var j;
   try{j=await r.json()}catch(e){throw new Error('Jawaban server tidak terbaca. Pastikan alamatnya yang berakhiran /exec.')}
-  if(j&&j.e)throw new Error(GALAT[j.e]||('Server menolak: '+j.e));
+  if(j&&j.e){var ex=new Error(GALAT[j.e]||j.m||('Server menolak: '+j.e));ex.kode=j.e;throw ex}
   return j;
 }
 /** Satu tarikan mengambil kartu semua brand sekaligus, karena backendnya
@@ -980,7 +1019,7 @@ async function tarikSemua(pin){
   if(pin){
     var s=await panggil(null,{a:'staff.login',gate:'mgmt',pin:pin});
     if(!s.tok)throw new Error('PIN manajemen ditolak server.');
-    sesi.tok=s.tok;
+    sesi.tok=s.tok; simpanSesi();
   }
   if(!sesi.tok)throw new Error('Masukkan PIN manajemen dulu.');
   var j=await panggil(null,{a:'holding.sync',t:sesi.tok});
@@ -988,6 +1027,7 @@ async function tarikSemua(pin){
   Object.keys(j.ms||{}).forEach(function(kode){
     (j.ms[kode]||[]).forEach(function(k){if(k&&k.code)semua.push(k)});
   });
+  D.brand.forEach(function(b){var info=(j.brand||{})[b.kode];if(info&&info.cfg)SV.cfg[b.id]=info.cfg});
   D.kartu=semua;
   D.server.ditarik=Date.now(); D.server.jumlah=semua.length; D.server.sebagian=!!j.sebagian;
   simpan();
@@ -1021,7 +1061,7 @@ function sinkronCabang(brandId){
     toast('Cabang '+(b?b.nama:'')+' tersimpan di server.');
     if(S.page==='data')render();
   }).catch(function(err){
-    if(/Sesi manajemen/.test(err.message))return kunciUlang();
+    if(err.kode==='auth')return kunciUlang();
     toast('Server menolak: '+(err.message||'')+' Tampilan dikembalikan sesuai server.');
     segarkan(true);
   });
@@ -1054,7 +1094,7 @@ function adopsiCabang(infoBrand){
   return naik;
 }
 function kunciUlang(){
-  sesi.tok=''; clearInterval(sesi.timer);
+  sesi.tok=''; hapusSesi(); clearInterval(sesi.timer);
   $('#app').hidden=true; $('#gate').hidden=false;
   var e=$('#gateErr'); e.textContent='Sesi berakhir. Masukkan PIN manajemen lagi.'; e.hidden=false;
   $('#gatePin').value=''; $('#gatePin').focus();
@@ -1127,9 +1167,10 @@ function segarkan(tampilkan){
   if(!sesi.tok)return;
   tarikSemua().then(function(n){
     if(tampilkan)toast(n+' kartu diperbarui dari server.');
-    if(tampilkan||S.page==='data'||S.page==='member'||S.page==='ringkasan'||S.page==='cabang')render();
+    if(tampilkan||['data','member','ringkasan','cabang','riwayat'].indexOf(S.page)>-1)render();
+    segarkanLatar();
   }).catch(function(err){
-    if(/Sesi manajemen/.test(err.message))return kunciUlang();
+    if(err.kode==='auth')return kunciUlang();
     if(tampilkan)toast(err.message||'Gagal memperbarui.');
   });
 }
@@ -1218,9 +1259,601 @@ function halBrand(){
 /* =========================================================
    Gerbang masuk
    ========================================================= */
+/* =========================================================
+   Pusat manajemen ACK Group
+   Pengaturan poin dan tier, desain kartu, riwayat, promo dan voucher, log.
+   Semua dikerjakan di sini dan langsung berlaku di aplikasi tiap brand.
+   ========================================================= */
+var SV={cfg:{},desain:{},promo:{},voucher:{},audit:null,muat:{},ptab:'promo',vf:'semua',rf:{jenis:'semua',cari:''},lf:''};
+var SATU_BRAND={aturan:1,desain:1,promo:1};
+var NAMA_TIER=['Bronze','Silver','Gold','Platinum'];
+var rpf=function(n){return 'Rp '+new Intl.NumberFormat('id-ID').format(Math.max(0,Math.round(n||0)))};
+function waktu(ms){try{return new Date(ms).toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}catch(e){return '-'}}
+function unitBrand(){return kodeBrand(S.brand)==='DT'?'potong':'pouring'}
+function msg(el,t){if(!el)return;el.textContent=t||'';el.hidden=!t}
+function field(id,label,val,extra,hint){
+  return '<div class="field"><label for="'+id+'">'+label+'</label><input id="'+id+'" value="'+esc(val==null?'':val)+'" '+(extra||'')+'>'+(hint?'<p class="hint">'+hint+'</p>':'')+'</div>';
+}
+function pilih(id,label,opsi,val){
+  return '<div class="field"><label for="'+id+'">'+label+'</label><select id="'+id+'">'+opsi.map(function(o){
+    return '<option value="'+esc(o[0])+'"'+(String(o[0])===String(val)?' selected':'')+'>'+esc(o[1])+'</option>';
+  }).join('')+'</select></div>';
+}
+/** Panggilan ke server untuk brand yang sedang dipilih. Sesi habis = kembali ke gerbang. */
+function srv(a,o,brandId){
+  o=o||{};o.a=a;o.t=sesi.tok;
+  return panggil(brandId||S.brand,o);
+}
+function srvGagal(er,el){
+  if(er&&er.kode==='auth'){kunciUlang();return}
+  if(el)msg(el,er.message);else toast(er.message||'Gagal.');
+}
+
+/* ---------------------------------------------------------
+   Pengaturan poin, tier, dan reward
+   --------------------------------------------------------- */
+function defTierBrand(){
+  var dt=kodeBrand(S.brand)==='DT';
+  return {mids:[{level:5,name:dt?'Gratis 1 potong ayam':'Gratis 1 add-on pilihan'}],final:dt?'Gratis 1 paket ayam':'Gratis 1 minuman pilihan'};
+}
+function halAturan(){
+  $('#pgTitle').textContent='Pengaturan poin dan tier';
+  $('#pgSub').textContent='Aturan untuk aplikasi '+namaBrand(S.brand)+'. Perubahan langsung berlaku di aplikasi member dan kasir.';
+  var c=SV.cfg[S.brand], u=unitBrand();
+  if(!c){$('#pg').innerHTML=kosong('Pengaturan belum terbaca','Pengaturan dibaca dari server begitu kamu masuk. Coba segarkan halaman.',null);return}
+  var nf=new Intl.NumberFormat('id-ID');
+  var h='<div class="card" style="margin-bottom:14px"><div class="hd"><h3>Aturan poin</h3></div><div class="bd" style="padding:16px 18px 6px"><form id="fPoin" novalidate>'+
+    '<div class="grid2">'+
+      field('a-brand','Nama brand di aplikasi',c.brand||namaBrand(S.brand),'maxlength="40"')+
+      field('a-rate','Rupiah untuk 1 '+u,nf.format(c.rupiahPerToken||25000),'inputmode="numeric"','Setiap kelipatan nilai ini dari belanja member menjadi 1 '+u+'.')+
+      pilih('a-start','Level awal member baru',[0,1,2,3,4].map(function(i){return [i,'Level '+i+(i===0?' (kosong)':'')]}),c.startLevel==null?2:c.startLevel)+
+      field('a-max','Maksimal '+u+' per transaksi',c.maxPerTx==null?10:c.maxPerTx,'inputmode="numeric"')+
+      field('a-man','Maksimal tambah manual oleh kasir',c.manualMax==null?3:c.manualMax,'inputmode="numeric"')+
+    '</div><p class="err" id="eAturan" hidden></p>'+
+    '<div class="rowact" style="margin:4px 0 14px"><button class="btn primary" type="submit">Simpan aturan poin</button></div></form></div></div>';
+
+  h+='<div class="card" style="margin-bottom:14px"><div class="hd"><h3>Tier dan reward</h3></div><div class="bd" style="padding:16px 18px 6px"><form id="fTier" novalidate>'+
+    '<p class="sub" style="margin-bottom:12px">Tiap tier punya reward di tengah perjalanan (level 1 sampai 9) dan reward saat penuh di level 10. Level reward di tengah harus berurutan.</p>';
+  for(var i=0;i<4;i++){
+    var t=(c.tiers&&c.tiers[i])||defTierBrand(), mids=t.mids||[];
+    h+='<fieldset class="tset" data-t="'+i+'"><legend>'+NAMA_TIER[i]+'</legend>'+
+      pilih('t'+i+'-n','Jumlah reward di tengah',[0,1,2,3].map(function(n){return [n,n+' reward']}),mids.length).replace('<select ','<select class="ts-n" ');
+    for(var k=0;k<3;k++){
+      var m=mids[k]||{level:[5,7,9][k],name:''};
+      h+='<div class="mrow2" data-k="'+k+'"'+(k>=mids.length?' hidden':'')+'>'+
+        '<select class="ts-lv" aria-label="Level reward '+(k+1)+'">'+[1,2,3,4,5,6,7,8,9].map(function(l){return '<option value="'+l+'"'+(l===m.level?' selected':'')+'>Level '+l+'</option>'}).join('')+'</select>'+
+        '<input class="ts-nm" maxlength="80" aria-label="Nama reward '+(k+1)+'" placeholder="Nama reward" value="'+esc(m.name||'')+'"></div>';
+    }
+    h+='<div class="field" style="margin-top:8px"><label for="t'+i+'-f">Reward saat penuh (level 10)</label><input id="t'+i+'-f" class="ts-fin" maxlength="80" value="'+esc(t.final||'')+'"></div></fieldset>';
+  }
+  h+='<p class="err" id="eTier" hidden></p><div class="rowact" style="margin:4px 0 14px"><button class="btn primary" type="submit">Simpan tier dan reward</button></div></form></div></div>';
+
+  h+='<div class="card"><div class="hd"><h3>Tautan</h3></div><div class="bd" style="padding:16px 18px 6px"><form id="fLink" novalidate>'+
+    field('a-fb','Tautan form feedback',c.feedbackUrl||'','inputmode="url" placeholder="https://forms.gle/…"')+
+    field('a-rv','Tautan ulasan Google',c.reviewUrl||'','inputmode="url" placeholder="https://g.page/r/…"')+
+    '<p class="err" id="eLink" hidden></p><div class="rowact" style="margin:4px 0 14px"><button class="btn primary" type="submit">Simpan tautan</button></div></form></div></div>';
+  $('#pg').innerHTML=h;
+  var rate=$('#a-rate');
+  rate.addEventListener('input',function(){var d=rate.value.replace(/\D/g,'');rate.value=d?nf.format(parseInt(d,10)):''});
+  $('#pg').onchange=function(e){
+    var n=e.target.closest('.ts-n'); if(!n)return;
+    var rows=n.closest('.tset').querySelectorAll('.mrow2'), v=parseInt(n.value,10)||0;
+    for(var k=0;k<rows.length;k++)rows[k].hidden=k>=v;
+  };
+  $('#pg').onsubmit=function(e){
+    e.preventDefault();
+    var f=e.target, btn=f.querySelector('button[type=submit]');
+    function kirim(patch,errEl,ok){
+      msg(errEl,'');btn.disabled=true;
+      srv('cfg.patch',{patch:patch}).then(function(r){SV.cfg[S.brand]=r.cfg;toast(ok);render()})
+        .catch(function(er){srvGagal(er,errEl)}).then(function(){btn.disabled=false});
+    }
+    if(f.id==='fPoin'){
+      var rt=parseInt($('#a-rate').value.replace(/\D/g,''),10)||0, e1=$('#eAturan');
+      if(!$('#a-brand').value.trim())return msg(e1,'Nama brand wajib diisi.');
+      if(rt<1000)return msg(e1,'Nilai minimal Rp 1.000.');
+      kirim({brand:$('#a-brand').value.trim(),rupiahPerToken:rt,startLevel:+$('#a-start').value,
+        maxPerTx:parseInt($('#a-max').value,10),manualMax:parseInt($('#a-man').value,10)},e1,'Aturan poin tersimpan.');
+    }else if(f.id==='fTier'){
+      var e2=$('#eTier'), tiers=[], sets=f.querySelectorAll('.tset');
+      for(var i=0;i<4;i++){
+        var n=parseInt(sets[i].querySelector('.ts-n').value,10)||0, rows=sets[i].querySelectorAll('.mrow2'), mids=[], prev=0;
+        for(var k=0;k<n;k++){
+          var lv=parseInt(rows[k].querySelector('.ts-lv').value,10), nm=rows[k].querySelector('.ts-nm').value.trim();
+          if(!nm)return msg(e2,NAMA_TIER[i]+': nama reward di tengah ke-'+(k+1)+' wajib diisi.');
+          if(lv<=prev)return msg(e2,NAMA_TIER[i]+': level reward harus berurutan dan tidak sama.');
+          prev=lv;mids.push({level:lv,name:nm});
+        }
+        var fin=sets[i].querySelector('.ts-fin').value.trim();
+        if(!fin)return msg(e2,NAMA_TIER[i]+': reward saat penuh wajib diisi.');
+        tiers.push({mids:mids,final:fin});
+      }
+      kirim({tiers:tiers},e2,'Tier dan reward tersimpan.');
+    }else if(f.id==='fLink'){
+      kirim({feedbackUrl:$('#a-fb').value.trim(),reviewUrl:$('#a-rv').value.trim()},$('#eLink'),'Tautan tersimpan.');
+    }
+  };
+}
+
+/* ---------------------------------------------------------
+   Desain kartu
+   --------------------------------------------------------- */
+var MAXSVG=400*1024, RASIO=1.586;
+var LAYOUT={std:'Standar (Bronze, Silver, Gold)',plat:'Platinum',classic:'Klasik (logo dan label dari aplikasi)'};
+function uriSvg(s){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)}
+function bacaSvg(teks){
+  if(teks.length>MAXSVG)throw new Error('Ukuran file terlalu besar. Maksimal 400 KB.');
+  var doc=new DOMParser().parseFromString(teks,'image/svg+xml');
+  if(doc.querySelector('parsererror'))throw new Error('File SVG tidak valid atau rusak.');
+  var root=doc.documentElement;
+  if(!root||root.localName!=='svg')throw new Error('File ini bukan SVG.');
+  Array.prototype.forEach.call(doc.querySelectorAll('script,foreignObject'),function(n){n.remove()});
+  Array.prototype.forEach.call(doc.querySelectorAll('*'),function(n){
+    Array.prototype.slice.call(n.attributes).forEach(function(a){
+      var nm=a.name.toLowerCase();
+      if(nm.indexOf('on')===0||((nm==='href'||nm==='xlink:href')&&/^\s*javascript:/i.test(a.value)))n.removeAttribute(a.name);
+    });
+  });
+  var vb=(root.getAttribute('viewBox')||'').trim().split(/[\s,]+/).map(Number),w,h;
+  if(vb.length===4&&vb[2]>0&&vb[3]>0){w=vb[2];h=vb[3]}
+  else{
+    w=parseFloat(root.getAttribute('width'));h=parseFloat(root.getAttribute('height'));
+    if(!(w>0&&h>0))throw new Error('SVG perlu viewBox, atau width dan height.');
+    root.setAttribute('viewBox','0 0 '+w+' '+h);
+  }
+  var rasio=w/h;
+  if(Math.abs(rasio/RASIO-1)>.12)throw new Error('Rasio kartu harus 1,586 : 1 (ukuran kartu kredit). File ini '+rasio.toFixed(2).replace('.',',')+' : 1.');
+  return new XMLSerializer().serializeToString(root).replace(/'Helvetica Neue'(?!,)/g,"'Helvetica Neue',Helvetica,Arial,sans-serif");
+}
+function pilihBerkas(terima,baca){
+  return new Promise(function(res){
+    var inp=document.createElement('input');inp.type='file';inp.accept=terima;
+    inp.onchange=function(){
+      var f=inp.files&&inp.files[0]; if(!f)return res(null);
+      baca(f).then(res,function(er){toast(er.message);res(null)});
+    };
+    inp.click();
+  });
+}
+function berkasSvg(){
+  return pilihBerkas('.svg,image/svg+xml',function(f){
+    return new Promise(function(ok,no){
+      if(f.size>MAXSVG)return no(new Error('Ukuran file terlalu besar. Maksimal 400 KB.'));
+      var r=new FileReader();
+      r.onload=function(){try{ok(bacaSvg(String(r.result)))}catch(e){no(e)}};
+      r.onerror=function(){no(new Error('File tidak bisa dibaca.'))};
+      r.readAsText(f);
+    });
+  });
+}
+function berkasPoster(){
+  return pilihBerkas('image/jpeg,image/png,image/webp',function(f){
+    return new Promise(function(ok,no){
+      if(!/^image\/(jpeg|png|webp)$/.test(f.type))return no(new Error('Pilih gambar JPG, PNG, atau WebP.'));
+      var r=new FileReader();
+      r.onerror=function(){no(new Error('File tidak bisa dibaca.'))};
+      r.onload=function(){
+        var im=new Image();
+        im.onerror=function(){no(new Error('Gambar tidak bisa dibaca.'))};
+        im.onload=function(){
+          var sc=Math.min(1,1000/Math.max(im.width,im.height)), c=document.createElement('canvas');
+          c.width=Math.max(1,Math.round(im.width*sc));c.height=Math.max(1,Math.round(im.height*sc));
+          var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+          var q=.86,u=c.toDataURL('image/jpeg',q);
+          while(u.length>400000&&q>.4){q-=.1;u=c.toDataURL('image/jpeg',q)}
+          if(u.length>400000)return no(new Error('Gambar terlalu besar. Pakai gambar yang lebih kecil.'));
+          ok(u);
+        };
+        im.src=r.result;
+      };
+      r.readAsDataURL(f);
+    });
+  });
+}
+function muatDesain(){
+  var b=S.brand, kunci='d'+b; if(SV.muat[kunci])return; SV.muat[kunci]=1;
+  var c=SV.cfg[b]||{}, ids=['tier0','tier1','tier2','tier3'].concat((c.designEvents||[]).map(function(e){return e.id})).slice(0,20);
+  panggil(b,{a:'design.get',t:sesi.tok,ids:ids}).then(function(r){SV.desain[b]=r.designs||{}})
+    .catch(function(er){SV.desain[b]=SV.desain[b]||{};srvGagal(er)})
+    .then(function(){delete SV.muat[kunci];if(S.page==='desain'&&S.brand===b)render()});
+}
+function thumb(svg,label){
+  return '<div class="thumb"><span>'+label+'</span>'+(svg?'<img alt="" src="'+uriSvg(svg)+'">':'<div class="thumb-kosong">Bawaan aplikasi</div>')+'</div>';
+}
+function halDesain(){
+  $('#pgTitle').textContent='Desain kartu';
+  $('#pgSub').textContent='Unggah desain kartu '+namaBrand(S.brand)+' per tier atau untuk event. Format SVG, rasio 1,586 : 1.';
+  var dz=SV.desain[S.brand], c=SV.cfg[S.brand];
+  if(!c){$('#pg').innerHTML=kosong('Pengaturan belum terbaca','Masuk dulu agar pengaturan terbaca dari server.',null);return}
+  if(!dz){$('#pg').innerHTML='<div class="card"><p class="sub" style="padding:22px">Memuat desain dari server…</p></div>';muatDesain();return}
+  var h='<div class="grid2 desain">';
+  for(var i=0;i<4;i++){
+    var d=dz['tier'+i]||{}, kustom=!!(d.front||d.back);
+    h+='<article class="card dcard"><div class="hd"><h3>'+NAMA_TIER[i]+'</h3><span class="pill '+(kustom?'on':'off')+'">'+(kustom?'Kustom':'Bawaan')+'</span></div>'+
+      '<div class="bd" style="padding:14px 18px 16px"><div class="thumbs">'+thumb(d.front,'Depan')+thumb(d.back,'Belakang')+'</div>'+
+      (d.front?'<div class="grid2" style="margin-top:12px">'+pilih('l'+i,'Tata letak',Object.keys(LAYOUT).map(function(k){return [k,LAYOUT[k]]}),d.layout||(i===3?'plat':'std')).replace('<select ','<select data-lay="'+i+'" ')+
+        ((d.layout||'')==='classic'?pilih('n'+i,'Nada',[['dark','Gelap'],['light','Terang']],d.tone||'dark').replace('<select ','<select data-tone="'+i+'" '):'')+'</div>':'')+
+      '<div class="rowact" style="justify-content:flex-start;margin-top:12px">'+
+        '<button class="btn sm" type="button" data-up="tier'+i+':front">Unggah depan</button>'+
+        '<button class="btn sm" type="button" data-up="tier'+i+':back">Unggah belakang</button>'+
+        (kustom?'<button class="btn sm" type="button" data-reset="tier'+i+'">Kembali ke bawaan</button>':'')+
+      '</div></div></article>';
+  }
+  h+='</div>';
+  var evs=(c.designEvents||[]).slice().sort(function(a,b){return (b.createdAt||0)-(a.createdAt||0)});
+  h+='<div class="card" style="margin-top:14px"><div class="hd"><h3>Desain event</h3><button class="btn sm primary" type="button" id="evBaru">Tambah desain event</button></div>';
+  h+=evs.length?'<table><thead><tr><th>Nama</th><th>Tier</th><th>Periode</th><th>Status</th><th class="r">Tindakan</th></tr></thead><tbody>'+evs.map(function(e){
+    var now=Date.now(),mulai=e.from?Date.parse(e.from+'T00:00:00+07:00'):0,akhir=e.to?Date.parse(e.to+'T23:59:59+07:00'):0;
+    var st=!e.active?['Mati','off']:(mulai&&now<mulai)?['Terjadwal','brand']:(akhir&&now>akhir)?['Selesai','off']:['Tayang','on'];
+    return '<tr><td><b>'+esc(e.name)+'</b></td><td>'+(e.all?'Semua tier':(e.tiers||[]).map(function(t){return NAMA_TIER[t]}).join(', '))+'</td>'+
+      '<td class="sub">'+(e.from||e.to?esc((e.from||'…')+' sampai '+(e.to||'…')):'Tanpa batas')+'</td>'+
+      '<td><span class="pill '+st[1]+'">'+st[0]+'</span></td>'+
+      '<td class="r"><button class="btn sm" type="button" data-evubah="'+esc(e.id)+'">Ubah</button> <button class="btn sm" type="button" data-evhapus="'+esc(e.id)+'">Hapus</button></td></tr>';
+  }).join('')+'</tbody></table>':'<p class="sub" style="padding:18px">Belum ada desain event. Desain event menimpa desain tier selama periodenya.</p>';
+  h+='</div>';
+  $('#pg').innerHTML=h;
+
+  function simpanTier(id,ubah){
+    var ti=parseInt(id.slice(4),10), cur=SV.desain[S.brand][id]||{id:id,name:NAMA_TIER[ti],front:'',back:'',tone:'dark'};
+    var d=Object.assign({},cur);ubah(d);d.id=id;d.name=NAMA_TIER[ti];d.updatedAt=Date.now();
+    if((d.front||'').length+(d.back||'').length>900*1024)return toast('Total ukuran file depan dan belakang terlalu besar.');
+    srv('design.set',{id:id,design:{id:id,name:d.name,front:d.front||'',back:d.back||'',tone:d.tone||'dark',layout:d.layout||'',updatedAt:d.updatedAt}})
+      .then(function(){SV.desain[S.brand][id]=d;toast('Desain '+NAMA_TIER[ti]+' tersimpan.');render()})
+      .catch(function(er){srvGagal(er)});
+  }
+  $('#pg').onchange=function(e){
+    var l=e.target.closest('[data-lay]'),t=e.target.closest('[data-tone]');
+    if(l)simpanTier('tier'+l.dataset.lay,function(d){d.layout=l.value});
+    if(t)simpanTier('tier'+t.dataset.tone,function(d){d.tone=t.value});
+  };
+  $('#pg').onclick=function(e){
+    var up=e.target.closest('[data-up]'),rs=e.target.closest('[data-reset]'),eb=e.target.closest('#evBaru'),eu=e.target.closest('[data-evubah]'),eh=e.target.closest('[data-evhapus]');
+    if(up){
+      var p=up.dataset.up.split(':');
+      berkasSvg().then(function(svg){if(!svg)return;simpanTier(p[0],function(d){d[p[1]]=svg;if(!d.layout)d.layout=p[0]==='tier3'?'plat':'std'})});
+    }
+    if(rs)konfirmasi({judul:'Kembali ke desain bawaan?',pesan:'Desain kustom '+NAMA_TIER[+rs.dataset.reset.slice(4)]+' akan dihapus. Member langsung melihat desain bawaan.',lanjut:'Kembalikan',
+      jalan:function(){srv('design.del',{id:rs.dataset.reset}).then(function(){delete SV.desain[S.brand][rs.dataset.reset];toast('Dikembalikan ke desain bawaan.');render()}).catch(function(er){srvGagal(er)})}});
+    if(eb)formEvent(null);
+    if(eu)formEvent(eu.dataset.evubah);
+    if(eh){
+      var ev=(c.designEvents||[]).filter(function(x){return x.id===eh.dataset.evhapus})[0];
+      konfirmasi({judul:'Hapus desain event?',pesan:'Desain event "'+esc(ev?ev.name:'')+'" dihapus permanen. Kartu member kembali ke desain tier.',lanjut:'Hapus',
+        jalan:function(){
+          var id=eh.dataset.evhapus;
+          srv('design.del',{id:id}).then(function(){return srv('cfg.patch',{patch:{designEvents:(c.designEvents||[]).filter(function(x){return x.id!==id})}})})
+            .then(function(r){SV.cfg[S.brand]=r.cfg;delete SV.desain[S.brand][id];toast('Desain event dihapus.');render()}).catch(function(er){srvGagal(er)});
+        }});
+    }
+  };
+}
+function formEvent(id){
+  var c=SV.cfg[S.brand], dz=SV.desain[S.brand]||{};
+  var ev=id?(c.designEvents||[]).filter(function(x){return x.id===id})[0]:null, d=id?(dz[id]||{}):{};
+  var st={front:d.front||'',back:d.back||'',layout:d.layout||'std'};
+  var isi='<div id="evForm">'+field('ev-n','Nama desain',ev?ev.name:'','maxlength="60" placeholder="Contoh: Ramadan 2027"')+
+    '<div class="field"><label>File desain</label><div class="rowact" style="justify-content:flex-start">'+
+      '<button class="btn sm" type="button" id="ev-f">Unggah depan</button><span class="sub" id="ev-fs">'+(st.front?'Sudah ada':'Belum')+'</span>'+
+      '<button class="btn sm" type="button" id="ev-b">Unggah belakang</button><span class="sub" id="ev-bs">'+(st.back?'Sudah ada':'Belum')+'</span></div></div>'+
+    pilih('ev-l','Tata letak',Object.keys(LAYOUT).map(function(k){return [k,LAYOUT[k]]}),st.layout)+
+    '<div class="field"><label>Berlaku untuk</label><label class="cek"><input type="checkbox" id="ev-all"'+((!ev||ev.all)?' checked':'')+'> Semua tier</label>'+
+      '<div class="cekrow">'+NAMA_TIER.map(function(n,i){return '<label class="cek"><input type="checkbox" class="ev-t" value="'+i+'"'+((ev&&(ev.tiers||[]).indexOf(i)>-1)?' checked':'')+((!ev||ev.all)?' disabled':'')+'> '+n+'</label>'}).join('')+'</div></div>'+
+    '<div class="grid2">'+field('ev-from','Mulai','', 'type="date"')+field('ev-to','Selesai','','type="date"')+'</div>'+
+    '<label class="cek"><input type="checkbox" id="ev-on"'+((!ev||ev.active)?' checked':'')+'> Aktif</label><p class="err" id="ev-e" hidden style="margin-top:8px"></p></div>';
+  bukaDialog({judul:ev?'Ubah desain event':'Desain event baru',sub:'Selama periodenya, desain ini menimpa desain tier.',isi:isi,lanjut:'Simpan',
+    jalan:function(){
+      var err=$('#ev-e'),nama=$('#ev-n').value.trim(),all=$('#ev-all').checked;
+      var tiers=Array.prototype.map.call(document.querySelectorAll('.ev-t:checked'),function(x){return +x.value});
+      var from=$('#ev-from').value,to=$('#ev-to').value;
+      if(!nama){msg(err,'Nama desain wajib diisi.');return false}
+      if(!st.front&&!st.back){msg(err,'Unggah minimal satu sisi, depan atau belakang.');return false}
+      if(!all&&!tiers.length){msg(err,'Pilih minimal satu tier, atau centang Semua tier.');return false}
+      if(from&&to&&from>to){msg(err,'Tanggal selesai harus setelah tanggal mulai.');return false}
+      var eid=id||('ev'+Date.now().toString(36)), baru={id:eid,name:nama,all:all,tiers:all?[]:tiers,active:$('#ev-on').checked,from:from,to:to,createdAt:ev?ev.createdAt:Date.now()};
+      srv('design.set',{id:eid,design:{id:eid,name:nama,front:st.front,back:st.back,tone:'dark',layout:$('#ev-l').value,updatedAt:Date.now()}})
+        .then(function(){
+          var list=(c.designEvents||[]).filter(function(x){return x.id!==eid});list.push(baru);
+          return srv('cfg.patch',{patch:{designEvents:list}});
+        }).then(function(r){
+          SV.cfg[S.brand]=r.cfg;dz[eid]={id:eid,name:nama,front:st.front,back:st.back,layout:$('#ev-l').value};SV.desain[S.brand]=dz;
+          tutupDialog();toast('Desain event tersimpan.');render();
+        }).catch(function(er){srvGagal(er,err)});
+      return false;
+    }});
+  if(ev){$('#ev-from').value=ev.from||'';$('#ev-to').value=ev.to||''}
+  $('#ev-all').addEventListener('change',function(){Array.prototype.forEach.call(document.querySelectorAll('.ev-t'),function(x){x.disabled=$('#ev-all').checked;if($('#ev-all').checked)x.checked=false})});
+  $('#ev-f').addEventListener('click',function(){berkasSvg().then(function(s){if(s){st.front=s;$('#ev-fs').textContent='Sudah ada'}})});
+  $('#ev-b').addEventListener('click',function(){berkasSvg().then(function(s){if(s){st.back=s;$('#ev-bs').textContent='Sudah ada'}})});
+}
+
+/* ---------------------------------------------------------
+   Riwayat poin dan pembelian
+   --------------------------------------------------------- */
+var JENIS_R={earn:'Belanja',bonus:'Poin tambahan',pour:'Cap',stamp:'Cap',redeem:'Reward',adjust:'Koreksi',status:'Status kartu',join:'Bergabung'};
+function barisRiwayat(){
+  var out=[];
+  filterBrand(D.kartu).forEach(function(k){
+    var b=brandDariKartu(k);
+    (k.log||[]).forEach(function(l){
+      out.push({t:l.t||0,nama:k.name||'-',telp:k.phone||'',code:k.code,brand:b,jenis:l.type||'join',l:l});
+    });
+  });
+  out.sort(function(a,b){return b.t-a.t});
+  return out;
+}
+function detailLog(r){
+  var l=r.l,u=kodeBrand(r.brand)==='DT'?'potong':'pouring';
+  if(l.type==='earn')return rpf(l.amount)+' · +'+(l.tokens||0)+' '+u;
+  if(l.type==='bonus')return '+'+(l.tokens||0)+' '+u+(l.reason?' · '+l.reason:'');
+  if(l.type==='pour'||l.type==='stamp')return l.level?('Naik ke level '+l.level):'Satu level terisi';
+  if(l.type==='redeem')return (l.level?'Level '+l.level:'Reward')+(l.tier?' · naik ke '+l.tier:'');
+  if(l.type==='adjust')return [l.dTokens?((l.dTokens>0?'+':'')+l.dTokens+' '+u):'',l.toLevel!=null?'level '+l.toLevel:'',l.toTier?('tier '+l.toTier):'',l.reason||''].filter(Boolean).join(' · ')||'Data diperbarui';
+  if(l.type==='status')return (l.to==='inactive'?'Dinonaktifkan':'Diaktifkan kembali')+(l.reason?' · '+l.reason:'');
+  return 'Kartu dibuat'+(l.level?', mulai level '+l.level:'');
+}
+function halRiwayat(){
+  $('#pgTitle').textContent='Riwayat poin dan pembelian';
+  $('#pgSub').textContent='Semua aktivitas kartu member: belanja, poin, cap, dan reward. Diperbarui otomatis.';
+  var semua=barisRiwayat(), f=SV.rf, q=f.cari.trim().toLowerCase();
+  var rows=semua.filter(function(r){
+    if(f.jenis!=='semua'){
+      if(f.jenis==='cap'){if(r.jenis!=='pour'&&r.jenis!=='stamp')return false}
+      else if(r.jenis!==f.jenis)return false;
+    }
+    return !q||(r.nama.toLowerCase().indexOf(q)>-1||String(r.telp).indexOf(q)>-1||r.code.toLowerCase().indexOf(q)>-1);
+  });
+  var belanja=rows.filter(function(r){return r.jenis==='earn'}), total=belanja.reduce(function(a,r){return a+(r.l.amount||0)},0);
+  var poin=belanja.reduce(function(a,r){return a+(r.l.tokens||0)},0)+rows.filter(function(r){return r.jenis==='bonus'}).reduce(function(a,r){return a+(r.l.tokens||0)},0);
+  var h='<div class="stats">'+
+    '<div class="stat"><span>Total belanja</span><b>'+rpf(total)+'</b></div>'+
+    '<div class="stat"><span>Transaksi belanja</span><b>'+belanja.length+'</b></div>'+
+    '<div class="stat"><span>Poin diberikan</span><b>'+poin+'</b></div>'+
+    '<div class="stat"><span>Semua aktivitas</span><b>'+rows.length+'</b></div></div>';
+  h+='<div class="card"><div class="hd"><h3>Aktivitas</h3>'+
+    '<select id="rJenis" aria-label="Jenis aktivitas" style="border:1px solid var(--line);border-radius:10px;padding:7px 10px">'+
+      [['semua','Semua jenis'],['earn','Belanja'],['bonus','Poin tambahan'],['cap','Cap'],['redeem','Reward'],['adjust','Koreksi'],['status','Status kartu'],['join','Bergabung']].map(function(o){return '<option value="'+o[0]+'"'+(f.jenis===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>'+
+    '<input id="rCari" placeholder="Cari nama, nomor, atau ID" value="'+esc(f.cari)+'" style="border:1px solid var(--line);border-radius:10px;padding:8px 11px;min-width:200px">'+
+    '<button class="btn sm" type="button" id="rCsv"'+(rows.length?'':' disabled')+'>Unduh CSV</button></div>';
+  h+=rows.length?'<div class="tscroll"><table><thead><tr><th>Waktu</th><th>Member</th><th>Brand</th><th>Jenis</th><th>Rincian</th><th>Petugas</th></tr></thead><tbody>'+rows.slice(0,300).map(function(r){
+    return '<tr><td class="sub" style="white-space:nowrap">'+esc(waktu(r.t))+'</td><td><b>'+esc(r.nama)+'</b><div class="sub">'+esc(fmtKode(r.code))+'</div></td>'+
+      '<td>'+esc(namaBrand(r.brand))+'</td><td>'+esc(JENIS_R[r.jenis]||r.jenis)+'</td><td>'+esc(detailLog(r))+'</td><td class="sub">'+esc(r.l.by||'-')+'</td></tr>';
+  }).join('')+'</tbody></table></div>'+(rows.length>300?'<p class="sub" style="padding:12px 18px">Menampilkan 300 terbaru dari '+rows.length+'. Persempit dengan pencarian, atau unduh CSV untuk semuanya.</p>':''):
+    kosong('Belum ada aktivitas','Aktivitas muncul di sini begitu member bertransaksi di kasir.',null);
+  h+='</div>';
+  $('#pg').innerHTML=h;
+  $('#rJenis').onchange=function(){SV.rf.jenis=this.value;render()};
+  var ci=$('#rCari');
+  ci.oninput=function(){SV.rf.cari=this.value;clearTimeout(ci._t);ci._t=setTimeout(function(){render();var n=$('#rCari');n.focus();n.setSelectionRange(n.value.length,n.value.length)},250)};
+  $('#rCsv').onclick=function(){
+    var e=function(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+    var csv=['Waktu,Member,Nomor,ID kartu,Brand,Jenis,Rincian,Belanja (Rp),Petugas'].concat(rows.map(function(r){
+      return [new Date(r.t).toISOString(),r.nama,r.telp,r.code,namaBrand(r.brand),JENIS_R[r.jenis]||r.jenis,detailLog(r),r.l.amount||'',r.l.by||''].map(e).join(',');
+    })).join('\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}));
+    a.download='riwayat-ack-group.csv';document.body.appendChild(a);a.click();a.remove();
+  };
+}
+
+/* ---------------------------------------------------------
+   Promo dan voucher
+   --------------------------------------------------------- */
+function muatPromo(){
+  var b=S.brand,k='p'+b; if(SV.muat[k])return; SV.muat[k]=1;
+  Promise.all([panggil(b,{a:'promo.list',t:sesi.tok,semua:true}),panggil(b,{a:'voucher.list',t:sesi.tok})])
+    .then(function(r){SV.promo[b]=r[0].promos||[];SV.voucher[b]=r[1].vouchers||[]})
+    .catch(function(er){SV.promo[b]=SV.promo[b]||[];SV.voucher[b]=SV.voucher[b]||[];srvGagal(er)})
+    .then(function(){delete SV.muat[k];if(S.page==='promo'&&S.brand===b)render()});
+}
+function namaMember(code){var k=D.kartu.filter(function(x){return x.code===code})[0];return k?k.name:fmtKode(code)}
+function halPromo(){
+  $('#pgTitle').textContent='Promo dan voucher';
+  $('#pgSub').textContent='Promo tampil di menu "Promo aktif" dan sebagai pop-up poster di aplikasi member. Voucher muncul di samping '+unitBrand()+'.';
+  var pr=SV.promo[S.brand], vc=SV.voucher[S.brand];
+  if(!pr||!vc){$('#pg').innerHTML='<div class="card"><p class="sub" style="padding:22px">Memuat promo dan voucher dari server…</p></div>';muatPromo();return}
+  var tab=SV.ptab;
+  var h='<div class="seg" style="margin-bottom:14px"><button type="button" data-pt="promo" aria-pressed="'+(tab==='promo')+'">Promo ('+pr.length+')</button>'+
+    '<button type="button" data-pt="voucher" aria-pressed="'+(tab==='voucher')+'">Voucher ('+vc.length+')</button></div>';
+  if(tab==='promo'){
+    h+='<div class="card"><div class="hd"><h3>Promo '+esc(namaBrand(S.brand))+'</h3><button class="btn sm primary" type="button" id="prBaru">Tambah promo</button></div>';
+    h+=pr.length?'<table><thead><tr><th>Promo</th><th>Periode</th><th>Poster</th><th>Status</th><th class="r">Tindakan</th></tr></thead><tbody>'+pr.map(function(p){
+      var cls=p.status==='aktif'?'on':(p.status==='mati'?'off':'brand');
+      return '<tr><td><b>'+esc(p.judul)+'</b><div class="sub">'+esc((p.isi||'').slice(0,90))+'</div></td>'+
+        '<td class="sub">'+(p.mulai||p.selesai?esc((p.mulai||'…')+' sampai '+(p.selesai||'…')):'Tanpa batas')+'</td>'+
+        '<td>'+(p.poster?'Ada':'<span class="sub">Tidak ada</span>')+'</td>'+
+        '<td><span class="pill '+cls+'">'+esc(p.status==='aktif'?'Tayang':p.status==='mati'?'Dimatikan':'Di luar periode')+'</span></td>'+
+        '<td class="r"><button class="btn sm" type="button" data-pubah="'+esc(p.id)+'">Ubah</button> <button class="btn sm" type="button" data-pvc="'+esc(p.id)+'">Beri voucher</button> <button class="btn sm" type="button" data-phapus="'+esc(p.id)+'">Hapus</button></td></tr>';
+    }).join('')+'</tbody></table>':kosong('Belum ada promo','Buat promo pertama. Member langsung melihat pop-up poster saat membuka aplikasi.',null);
+    h+='</div>';
+  }else{
+    var f=SV.vf, list=vc.filter(function(v){return f==='semua'||v.status===f});
+    var hit={aktif:0,dipakai:0,kedaluwarsa:0,batal:0};vc.forEach(function(v){hit[v.status]=(hit[v.status]||0)+1});
+    h+='<div class="stats"><div class="stat"><span>Aktif</span><b>'+hit.aktif+'</b></div><div class="stat"><span>Sudah dipakai</span><b>'+hit.dipakai+'</b></div><div class="stat"><span>Kedaluwarsa</span><b>'+hit.kedaluwarsa+'</b></div><div class="stat"><span>Dibatalkan</span><b>'+hit.batal+'</b></div></div>';
+    h+='<div class="card"><div class="hd"><h3>Voucher '+esc(namaBrand(S.brand))+'</h3>'+
+      '<select id="vFilter" aria-label="Status voucher" style="border:1px solid var(--line);border-radius:10px;padding:7px 10px">'+[['semua','Semua'],['aktif','Aktif'],['dipakai','Dipakai'],['kedaluwarsa','Kedaluwarsa'],['batal','Dibatalkan']].map(function(o){return '<option value="'+o[0]+'"'+(f===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select>'+
+      '<button class="btn sm primary" type="button" id="vBaru">Beri voucher</button></div>';
+    h+=list.length?'<div class="tscroll"><table><thead><tr><th>Voucher</th><th>Member</th><th>Berlaku sampai</th><th>Status</th><th class="r">Tindakan</th></tr></thead><tbody>'+list.slice(0,300).map(function(v){
+      var cls=v.status==='aktif'?'on':(v.status==='dipakai'?'brand':'off');
+      return '<tr><td><b>'+esc(v.judul)+'</b><div class="sub">Kode '+esc(v.id)+(v.status==='dipakai'&&v.dipakaiAt?' · dipakai '+esc(waktu(v.dipakaiAt))+(v.oleh?' oleh '+esc(v.oleh):''):'')+'</div></td>'+
+        '<td>'+esc(namaMember(v.code))+'</td><td class="sub">'+esc(v.berlaku||'Tanpa batas')+'</td>'+
+        '<td><span class="pill '+cls+'">'+esc({aktif:'Aktif',dipakai:'Dipakai',kedaluwarsa:'Kedaluwarsa',batal:'Dibatalkan'}[v.status]||v.status)+'</span></td>'+
+        '<td class="r">'+(v.status==='aktif'?'<button class="btn sm" type="button" data-vpakai="'+esc(v.id)+'">Tandai dipakai</button> <button class="btn sm" type="button" data-vbatal="'+esc(v.id)+'">Batalkan</button>':
+          v.status==='batal'?'<button class="btn sm" type="button" data-vaktif="'+esc(v.id)+'">Aktifkan lagi</button>':'')+'</td></tr>';
+    }).join('')+'</tbody></table></div>':kosong('Belum ada voucher','Beri voucher ke semua member atau member tertentu. Jumlahnya tampil di aplikasi member.',null);
+    h+='</div>';
+  }
+  $('#pg').innerHTML=h;
+  $('#pg').onchange=function(e){if(e.target.id==='vFilter'){SV.vf=e.target.value;render()}};
+  $('#pg').onclick=function(e){
+    var t=e.target.closest('button'); if(!t)return;
+    if(t.dataset.pt){SV.ptab=t.dataset.pt;return render()}
+    if(t.id==='prBaru')return formPromo(null);
+    if(t.dataset.pubah)return formPromo(t.dataset.pubah);
+    if(t.dataset.pvc)return formVoucher(t.dataset.pvc);
+    if(t.id==='vBaru')return formVoucher(null);
+    if(t.dataset.phapus){
+      var p=pr.filter(function(x){return x.id===t.dataset.phapus})[0];
+      return konfirmasi({judul:'Hapus promo?',pesan:'Promo "'+esc(p?p.judul:'')+'" dan posternya dihapus permanen. Voucher yang sudah diberikan tetap ada.',lanjut:'Hapus',
+        jalan:function(){srv('promo.del',{id:t.dataset.phapus}).then(function(){SV.promo[S.brand]=pr.filter(function(x){return x.id!==t.dataset.phapus});toast('Promo dihapus.');render()}).catch(function(er){srvGagal(er)})}});
+    }
+    var aksi=t.dataset.vpakai?['dipakai',t.dataset.vpakai,'Tandai voucher dipakai?','Voucher ini ditandai sudah dipakai dan tidak bisa dipakai lagi.','Tandai dipakai']:
+      t.dataset.vbatal?['batal',t.dataset.vbatal,'Batalkan voucher?','Voucher hilang dari aplikasi member.','Batalkan voucher']:
+      t.dataset.vaktif?['aktif',t.dataset.vaktif,'Aktifkan voucher lagi?','Voucher muncul kembali di aplikasi member.','Aktifkan']:null;
+    if(aksi)konfirmasi({judul:aksi[2],pesan:aksi[3],lanjut:aksi[4],jalan:function(){
+      srv('voucher.set',{id:aksi[1],status:aksi[0]}).then(function(r){
+        var v=vc.filter(function(x){return x.id===aksi[1]})[0];if(v)Object.assign(v,r.voucher);toast('Voucher diperbarui.');render();
+      }).catch(function(er){srvGagal(er)});
+    }});
+  };
+}
+function formPromo(id){
+  var pr=SV.promo[S.brand], p=id?pr.filter(function(x){return x.id===id})[0]:null, poster={uri:null,hapus:false,ada:!!(p&&p.poster)};
+  var isi='<div>'+field('pr-j','Judul promo',p?p.judul:'','maxlength="60" placeholder="Contoh: Beli 2 gratis 1"')+
+    '<div class="field"><label for="pr-i">Keterangan</label><textarea id="pr-i" rows="3" maxlength="600" style="border:1px solid var(--line);border-radius:11px;padding:10px 12px;font:inherit">'+esc(p?p.isi:'')+'</textarea></div>'+
+    '<div class="grid2">'+field('pr-m','Mulai',p?p.mulai:'','type="date"')+field('pr-s','Selesai',p?p.selesai:'','type="date"')+'</div>'+
+    '<div class="field"><label>Poster pop-up</label><div class="posterbox" id="pr-pv"></div>'+
+      '<div class="rowact" style="justify-content:flex-start;margin-top:8px"><button class="btn sm" type="button" id="pr-up">Pilih gambar</button><button class="btn sm" type="button" id="pr-rm">Hapus poster</button></div>'+
+      '<p class="hint">JPG, PNG, atau WebP. Otomatis dikecilkan. Poster tegak (4:5) paling pas di layar HP.</p></div>'+
+    '<label class="cek"><input type="checkbox" id="pr-on"'+((!p||p.aktif!==false)?' checked':'')+'> Aktif</label><p class="err" id="pr-e" hidden style="margin-top:8px"></p></div>';
+  bukaDialog({judul:p?'Ubah promo':'Promo baru',sub:'Muncul sebagai pop-up saat member membuka aplikasi.',isi:isi,lanjut:'Simpan',
+    jalan:function(){
+      var err=$('#pr-e'),j=$('#pr-j').value.trim(),m=$('#pr-m').value,s=$('#pr-s').value;
+      if(!j){msg(err,'Judul promo wajib diisi.');return false}
+      if(m&&s&&m>s){msg(err,'Tanggal selesai harus setelah tanggal mulai.');return false}
+      var d={judul:j,isi:$('#pr-i').value.trim(),mulai:m,selesai:s,aktif:$('#pr-on').checked};
+      if(id)d.id=id;
+      if(poster.uri)d.poster=poster.uri;else if(poster.hapus)d.hapusPoster=true;
+      srv('promo.set',{promo:d}).then(function(r){
+        var lain=pr.filter(function(x){return x.id!==r.promo.id});r.promo.status='aktif';lain.unshift(r.promo);SV.promo[S.brand]=lain;
+        delete SV.muat['p'+S.brand];SV.promo[S.brand]=null;tutupDialog();toast('Promo tersimpan.');render();
+      }).catch(function(er){srvGagal(er,err)});
+      return false;
+    }});
+  function pv(){
+    var b=$('#pr-pv');
+    if(poster.uri)b.innerHTML='<img alt="Poster" src="'+poster.uri+'">';
+    else if(poster.ada&&!poster.hapus){b.innerHTML='<span class="sub">Poster tersimpan di server.</span>'}
+    else b.innerHTML='<span class="sub">Belum ada poster.</span>';
+  }
+  pv();
+  if(p&&p.poster)srv('promo.poster',{id:id}).then(function(r){if(r.poster&&!poster.uri&&!poster.hapus){poster.lama=r.poster;$('#pr-pv').innerHTML='<img alt="Poster" src="'+r.poster+'">'}}).catch(function(){});
+  $('#pr-up').addEventListener('click',function(){berkasPoster().then(function(u){if(u){poster.uri=u;poster.hapus=false;pv()}})});
+  $('#pr-rm').addEventListener('click',function(){poster.uri=null;poster.hapus=true;pv()});
+}
+function formVoucher(promoId){
+  var pr=SV.promo[S.brand]||[], p=promoId?pr.filter(function(x){return x.id===promoId})[0]:null;
+  var kartu=D.kartu.filter(function(k){return brandDariKartu(k)===S.brand&&kartuAktif(k)});
+  var pilihan={};
+  var isi='<div>'+field('vc-j','Nama voucher',p?p.judul:'','maxlength="60" placeholder="Contoh: Gratis es teh"')+
+    field('vc-i','Keterangan',p?(p.isi||'').slice(0,120):'','maxlength="300"')+
+    '<div class="grid2">'+field('vc-b','Berlaku sampai','','type="date"')+field('vc-n','Jumlah per member','1','inputmode="numeric"')+'</div>'+
+    '<div class="field"><label>Penerima</label>'+
+      '<label class="cek"><input type="radio" name="vc-t" value="all" checked> Semua member '+esc(namaBrand(S.brand))+' ('+kartu.length+' kartu aktif)</label>'+
+      '<label class="cek"><input type="radio" name="vc-t" value="codes"> Member tertentu</label></div>'+
+    '<div id="vc-pick" hidden><input id="vc-q" placeholder="Cari nama atau nomor" style="border:1px solid var(--line);border-radius:10px;padding:8px 11px;width:100%;margin-bottom:8px"><div id="vc-list" class="pickbox"></div><p class="sub" id="vc-c">0 dipilih</p></div>'+
+    '<p class="err" id="vc-e" hidden style="margin-top:8px"></p></div>';
+  bukaDialog({judul:'Beri voucher',sub:'Voucher muncul di aplikasi member dan bisa dipakai di kasir.',isi:isi,lanjut:'Beri voucher',
+    jalan:function(){
+      var err=$('#vc-e'),j=$('#vc-j').value.trim(),mode=document.querySelector('input[name="vc-t"]:checked').value;
+      if(!j){msg(err,'Nama voucher wajib diisi.');return false}
+      var codes=Object.keys(pilihan).filter(function(c){return pilihan[c]});
+      if(mode==='codes'&&!codes.length){msg(err,'Pilih minimal satu member.');return false}
+      srv('voucher.issue',{voucher:{judul:j,isi:$('#vc-i').value.trim(),berlaku:$('#vc-b').value,jumlah:parseInt($('#vc-n').value,10)||1,promoId:promoId||'',target:{mode:mode,codes:codes}}})
+        .then(function(r){SV.voucher[S.brand]=null;delete SV.muat['p'+S.brand];SV.ptab='voucher';tutupDialog();toast(r.dibuat+' voucher diberikan ke '+r.penerima+' member.');render()})
+        .catch(function(er){srvGagal(er,err)});
+      return false;
+    }});
+  function daftar(){
+    var q=$('#vc-q').value.trim().toLowerCase();
+    var ls=kartu.filter(function(k){return !q||String(k.name||'').toLowerCase().indexOf(q)>-1||String(k.phone||'').indexOf(q)>-1}).slice(0,60);
+    $('#vc-list').innerHTML=ls.length?ls.map(function(k){return '<label class="cek"><input type="checkbox" data-c="'+esc(k.code)+'"'+(pilihan[k.code]?' checked':'')+'> '+esc(k.name||'-')+' <span class="sub">'+esc(telpTampil?telpTampil(k.phone):k.phone)+'</span></label>'}).join(''):'<p class="sub">Tidak ada member yang cocok.</p>';
+    $('#vc-c').textContent=Object.keys(pilihan).filter(function(c){return pilihan[c]}).length+' dipilih';
+  }
+  document.querySelectorAll('input[name="vc-t"]').forEach(function(r){r.addEventListener('change',function(){$('#vc-pick').hidden=document.querySelector('input[name="vc-t"]:checked').value!=='codes';daftar()})});
+  $('#vc-q').addEventListener('input',daftar);
+  $('#vc-list').addEventListener('change',function(e){var c=e.target.dataset.c;if(c){pilihan[c]=e.target.checked;daftar()}});
+}
+
+/* ---------------------------------------------------------
+   Log aktivitas (termasuk log masuk staf)
+   --------------------------------------------------------- */
+function muatLog(){
+  if(SV.muat.log)return; SV.muat.log=1;
+  panggil(null,{a:'audit.list',t:sesi.tok}).then(function(r){SV.audit=r.log||[]})
+    .catch(function(er){SV.audit=SV.audit||[];srvGagal(er)})
+    .then(function(){delete SV.muat.log;if(S.page==='log')render()});
+}
+function halLog(){
+  $('#pgTitle').textContent='Log aktivitas';
+  $('#pgSub').textContent='Catatan masuk staf, perubahan pengaturan, promo, voucher, dan tindakan lain. 400 catatan terbaru.';
+  if(!SV.audit){$('#pg').innerHTML='<div class="card"><p class="sub" style="padding:22px">Memuat log dari server…</p></div>';muatLog();return}
+  var q=SV.lf.trim().toLowerCase();
+  var ls=SV.audit.filter(function(x){return !q||(x.aksi+' '+x.staf+' '+x.peran+' '+x.kode+' '+x.cat+' '+x.brand).toLowerCase().indexOf(q)>-1});
+  var h='<div class="card"><div class="hd"><h3>Aktivitas</h3><input id="lCari" placeholder="Cari aksi, petugas, atau ID" value="'+esc(SV.lf)+'" style="border:1px solid var(--line);border-radius:10px;padding:8px 11px;min-width:220px">'+
+    '<button class="btn sm" type="button" id="lSegar">Muat ulang</button></div>';
+  h+=ls.length?'<div class="tscroll"><table><thead><tr><th>Waktu</th><th>Brand</th><th>Peran</th><th>Petugas</th><th>Aksi</th><th>ID</th><th>Catatan</th></tr></thead><tbody>'+ls.map(function(x){
+    return '<tr><td class="sub" style="white-space:nowrap">'+esc(waktu(x.t))+'</td><td>'+esc(x.brand||'-')+'</td><td>'+esc(x.peran)+'</td><td>'+esc(x.staf||'-')+'</td><td><b>'+esc(x.aksi)+'</b></td><td class="sub">'+esc(x.kode||'')+'</td><td class="sub">'+esc(x.cat||'')+'</td></tr>';
+  }).join('')+'</tbody></table></div>':kosong('Tidak ada catatan','Belum ada aktivitas yang cocok.',null);
+  h+='</div>';
+  $('#pg').innerHTML=h;
+  var ci=$('#lCari');
+  ci.oninput=function(){SV.lf=this.value;clearTimeout(ci._t);ci._t=setTimeout(function(){render();var n=$('#lCari');n.focus();n.setSelectionRange(n.value.length,n.value.length)},250)};
+  $('#lSegar').onclick=function(){SV.audit=null;render()};
+}
+
+/* ---------------------------------------------------------
+   Pasang sebagai aplikasi (PWA)
+   --------------------------------------------------------- */
+var dpInst=null;
+var IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+var ANDROID=/Android/.test(navigator.userAgent);
+function modeAplikasi(){try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}}
+function bisaPasang(){
+  return /^https?:$/.test(location.protocol)&&!modeAplikasi()&&ls.get('ack:terpasang')!=='1'&&!!(dpInst||IOS||ANDROID);
+}
+function segarInstall(){
+  var b=$('#installBtn'),bar=$('#instBar'),ok=bisaPasang();
+  if(b)b.hidden=!ok;
+  if(bar)bar.hidden=!(ok&&ls.get('ack:nanti')!=='1'&&$('#app')&&!$('#app').hidden);
+}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dpInst=e;segarInstall()});
+window.addEventListener('appinstalled',function(){ls.set('ack:terpasang','1');segarInstall();toast('ACK Group terpasang.')});
+function petunjukInstall(){
+  var langkah=IOS?['Ketuk tombol <b>Bagikan</b> (kotak dengan panah naik) di Safari.','Gulir, lalu pilih <b>Tambah ke Layar Utama</b>.','Ketuk <b>Tambah</b>. Ikon ACK Group muncul di layar utama.']
+    :ANDROID?['Ketuk menu <b>⋮</b> di pojok kanan atas Chrome.','Pilih <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.','Ketuk <b>Instal</b>. Ikon ACK Group muncul di layar utama.']
+    :['Di Chrome atau Edge, klik ikon <b>Pasang</b> di sisi kanan kolom alamat.','Atau buka menu browser lalu pilih <b>Instal ACK Group</b>.'];
+  bukaDialog({judul:'Pasang ACK Group',sub:'Dashboard terbuka langsung dari ikon, tanpa mencari link.',hanyaTutup:true,
+    isi:'<ol style="margin:0;padding-left:20px;display:grid;gap:8px">'+langkah.map(function(t){return '<li>'+t+'</li>'}).join('')+'</ol>'});
+}
+function pasangApp(){
+  if(dpInst){
+    var e=dpInst;dpInst=null;
+    try{e.prompt();(e.userChoice||Promise.resolve({})).then(function(c){if(c&&c.outcome==='accepted')ls.set('ack:terpasang','1');segarInstall()})}catch(x){petunjukInstall()}
+    return;
+  }
+  petunjukInstall();
+}
+$('#installBtn').addEventListener('click',pasangApp);
+$('#instGo').addEventListener('click',pasangApp);
+$('#instNanti').addEventListener('click',function(){ls.set('ack:nanti','1');segarInstall()});
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+}
+
+function segarkanLatar(){
+  var b=S.brand;
+  if(S.page==='promo'&&SV.promo[b]){
+    Promise.all([panggil(b,{a:'promo.list',t:sesi.tok,semua:true}),panggil(b,{a:'voucher.list',t:sesi.tok})]).then(function(r){SV.promo[b]=r[0].promos||[];SV.voucher[b]=r[1].vouchers||[];if(S.page==='promo'&&!document.querySelector('dialog[open]'))render()}).catch(function(){});
+  }
+  if(S.page==='log'&&SV.audit&&!SV.muat.log){panggil(null,{a:'audit.list',t:sesi.tok}).then(function(r){SV.audit=r.log||[];if(S.page==='log')render()}).catch(function(){})}
+}
 function pinTersimpan(){return ls.get(PINKEY)||'1234'}
+/** Token sesi disimpan di sessionStorage: tahan muat ulang, hilang saat tab ditutup. */
+var SESI_KEY='ack:sesi', SESI_MS=5.5*3600*1000;
+function simpanSesi(){try{sessionStorage.setItem(SESI_KEY,JSON.stringify({tok:sesi.tok,t:Date.now()}))}catch(e){}}
+function bacaSesi(){try{var o=JSON.parse(sessionStorage.getItem(SESI_KEY)||'null');return o&&o.tok&&Date.now()-o.t<SESI_MS?o.tok:''}catch(e){return ''}}
+function hapusSesi(){try{sessionStorage.removeItem(SESI_KEY)}catch(e){}}
 function buka(){
-  $('#gate').hidden=true;$('#app').hidden=false;render();
+  $('#gate').hidden=true;$('#app').hidden=false;render();segarInstall();
   if(sesi.tok){
     clearInterval(sesi.timer);
     sesi.timer=setInterval(function(){if(!document.hidden)segarkan(false)},60000);
@@ -1239,7 +1872,13 @@ $('#gateForm').addEventListener('submit',function(e){
     tolak(/ditolak/.test(ex.message)?'PIN salah. Coba lagi.':ex.message);
   });
 });
-if(!urlServer()&&ls.get(SESKEY)==='1')buka(); else setTimeout(function(){$('#gatePin').focus()},80);
+if(!urlServer()&&ls.get(SESKEY)==='1')buka();
+else if(urlServer()&&bacaSesi()){
+  sesi.tok=bacaSesi();
+  try{var hl=(sessionStorage.getItem('ack:hal')||'').split('|');
+    if($('#nav [data-page="'+hl[0]+'"]')){S.page=hl[0];if(hl[1]==='semua'||D.brand.some(function(x){return x.id===hl[1]}))S.brand=hl[1]}}catch(e){}
+  buka();segarkan(false);        /* muat ulang tidak mengeluarkan kamu */
+}else setTimeout(function(){$('#gatePin').focus()},80);
 </script>
 </body>
 </html>
