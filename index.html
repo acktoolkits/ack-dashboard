@@ -395,7 +395,23 @@ $('#brandSeg').addEventListener('click',function(e){
 /* =========================================================
    Halaman
    ========================================================= */
+function statusLive(){
+  var el=$('#liveStat');
+  if(!el){
+    $('#nav').insertAdjacentHTML('afterend','<div id="liveStat" class="sub" style="padding:14px 12px 0;font-size:12.5px;line-height:1.5"></div>');
+    el=$('#liveStat');
+  }
+  if(!urlServer()){el.hidden=true;return}
+  el.hidden=false;
+  el.innerHTML=sesi.tok
+    ?'<span class="pill on"><span class="dot"></span>Tersambung otomatis</span><br>Temma, DTOP, dan cabang selalu sinkron'+(D.server.ditarik?' · '+tgl(D.server.ditarik):'')
+    :'<span class="pill off"><span class="dot"></span>Tidak tersambung</span>';
+}
 function render(){
+  var tombolData=$('#nav [data-page="data"]');
+  if(tombolData)tombolData.hidden=!!urlConfig();      /* mode server: tidak ada menu data, semuanya otomatis */
+  if(urlConfig()&&S.page==='data')S.page='ringkasan';
+  statusLive();
   Array.prototype.forEach.call($('#nav').children,function(b){
     if(b.dataset.page===S.page)b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
   });
@@ -476,7 +492,7 @@ function halRingkasan(){
     });
     h+='</tbody></table></div>';
   }else{
-    h+='<p class="sub" style="margin-top:14px">Angka member dan transaksi muncul setelah dashboard ini menarik data dari server Temma dan DTOP di halaman Sumber data.</p>';
+    h+='<p class="sub" style="margin-top:14px">'+(urlServer()?'Angka member dan transaksi muncul otomatis begitu ada member yang mendaftar di aplikasi Temma atau DTOP.':'Angka member dan transaksi muncul setelah dashboard ini menarik data dari server Temma dan DTOP di halaman Sumber data.')+'</p>';
   }
   $('#pg').innerHTML=h;
 }
@@ -775,6 +791,11 @@ function lencanaKartu(k){
 function halMember(){
   $('#pgTitle').textContent='Member';
   $('#pgSub').textContent='Satu orang dikenali dari nomor WhatsApp. Kartu, level, dan riwayatnya berdiri sendiri di tiap brand.';
+  if(!D.kartu.length&&urlServer()){
+    $('#pg').innerHTML='<div class="card">'+kosong('Belum ada member',
+      'Member muncul di sini otomatis begitu ada yang mendaftar di aplikasi Temma atau DTOP. Tidak perlu menarik data.',null)+'</div>';
+    return;
+  }
   if(!D.kartu.length){
     $('#pg').innerHTML='<div class="card">'+kosong('Belum ada data member',
       'Dashboard ini membaca kartu dari server tiap brand. Isi alamat servernya dulu di halaman Sumber data, atau pakai data contoh untuk mencoba tampilannya.',
