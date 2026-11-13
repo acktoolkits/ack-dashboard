@@ -209,10 +209,12 @@ dialog::backdrop{background:rgba(22,33,46,.42)}
   <div class="ft" id="dlgFoot"></div></form>
 </div></dialog>
 
+<script src="config.js" onerror="void 0"></script>
 <script>
 'use strict';
 /* =========================================================
-   ACK Group — dashboard holding (prototipe)
+   ACK Group — dashboard holding
+   Alamat server dibaca dari config.js, jadi tidak perlu diisi lewat layar.
    Data masih di perangkat ini (localStorage). Nanti disambungkan ke server
    yang sama dengan aplikasi Temma dan DTOP.
    ========================================================= */
@@ -517,12 +519,12 @@ function halCabang(){
   h+='<div class="infobox" style="margin-top:14px">Kode cabang tidak bisa diubah lagi setelah ada member yang mendaftar di cabang itu, karena kodenya menempel pada ID mereka. Nama, alamat, dan telepon tetap bisa diubah kapan saja.</div>';
   $('#pg').innerHTML=h;
 
-  $('#pg').addEventListener('click',function(e){
+  $('#pg').onclick=function(e){
     var a=e.target.closest('[data-add="cabang"]'); if(a)return formCabang(null);
     var u=e.target.closest('[data-ubah]'); if(u)return formCabang(u.dataset.ubah);
     var t=e.target.closest('[data-toggle]'); if(t)return toggleCabang(t.dataset.toggle);
     var d=e.target.closest('[data-hapus]'); if(d)return hapusCabang(d.dataset.hapus);
-  });
+  };;
 }
 
 function formCabang(id){
@@ -557,10 +559,10 @@ function formCabang(id){
       if(bentrok)return gagal('Kode '+kode+' sudah dipakai cabang '+bentrok.nama+'.');
       if(t){
         t.kode=kode;t.nama=nama;t.alamat=$('#fAlamat').value.trim();t.telepon=$('#fTelp').value.trim();
-        simpan();render();toast('Cabang '+nama+' diperbarui.');
+        simpan();render();toast('Cabang '+nama+' diperbarui.');sinkronCabang(brand);
       }else{
         D.toko.push({id:uid(),brand:brand,kode:kode,nama:nama,alamat:$('#fAlamat').value.trim(),telepon:$('#fTelp').value.trim(),aktif:true,dibuat:Date.now()});
-        simpan();render();toast('Cabang '+nama+' ditambahkan.');
+        simpan();render();toast('Cabang '+nama+' ditambahkan.');sinkronCabang(brand);
       }
       return true;
     }
@@ -576,11 +578,11 @@ function toggleCabang(id){
       pesan:'Kasir di cabang ini tidak bisa lagi masuk dan memberi cap.'+(pet?' Ada '+pet+' petugas aktif yang ikut terhenti.':''),
       tambahan:'<div class="infobox">Member yang mendaftar di sini tetap aman. Kartunya tetap berlaku di cabang lain, dan riwayat lamanya tetap terbaca di laporan.</div>',
       lanjut:'Nonaktifkan',
-      jalan:function(){t.aktif=false;simpan();render();toast('Cabang '+t.nama+' dinonaktifkan.')}
+      jalan:function(){t.aktif=false;simpan();render();toast('Cabang '+t.nama+' dinonaktifkan.');sinkronCabang(t.brand)}
     });
   }else{
     bukaDialog({judul:'Aktifkan kembali cabang '+t.nama+'?',sub:'Petugas di cabang ini bisa masuk lagi dan memberi cap.',
-      isi:'',lanjut:'Aktifkan',jalan:function(){t.aktif=true;simpan();render();toast('Cabang '+t.nama+' diaktifkan.');return true}});
+      isi:'',lanjut:'Aktifkan',jalan:function(){t.aktif=true;simpan();render();toast('Cabang '+t.nama+' diaktifkan.');sinkronCabang(t.brand);return true}});
   }
 }
 
@@ -594,7 +596,7 @@ function hapusCabang(id){
       sub:'Sudah ada data yang menunjuk ke cabang ini.',
       isi:'<div class="infobox">Tercatat '+pakai.member+' member mendaftar di sini dan '+pakai.transaksi+' transaksi. Menghapusnya akan membuat laporan lama kehilangan asal datanya.<br><br>Yang bisa dilakukan: nonaktifkan cabang ini. Kasirnya berhenti melayani, tapi seluruh riwayat tetap utuh.</div>',
       lanjut:'Nonaktifkan saja', batal:'Tutup',
-      jalan:function(){t.aktif=false;simpan();render();toast('Cabang '+t.nama+' dinonaktifkan.');return true}
+      jalan:function(){t.aktif=false;simpan();render();toast('Cabang '+t.nama+' dinonaktifkan.');sinkronCabang(t.brand);return true}
     });
     return;
   }
@@ -607,7 +609,7 @@ function hapusCabang(id){
     jalan:function(){
       D.petugas=D.petugas.filter(function(p){return p.toko!==t.id});
       D.toko=D.toko.filter(function(x){return x.id!==t.id});
-      simpan();render();toast('Cabang '+t.nama+' dihapus.');
+      simpan();render();toast('Cabang '+t.nama+' dihapus.');sinkronCabang(t.brand);
     }
   });
 }
@@ -646,13 +648,13 @@ function halPetugas(){
   h+='<div class="infobox" style="margin-top:14px">PIN hanya bisa diatur ulang, tidak bisa dilihat. Petugas yang dinonaktifkan langsung tidak bisa masuk, tapi semua cap yang pernah diberikannya tetap tercatat atas namanya.</div>';
   $('#pg').innerHTML=h;
 
-  $('#pg').addEventListener('click',function(e){
+  $('#pg').onclick=function(e){
     var a=e.target.closest('[data-add="petugas"]'); if(a)return formPetugas(null);
     var u=e.target.closest('[data-pubah]'); if(u)return formPetugas(u.dataset.pubah);
     var k=e.target.closest('[data-ppin]'); if(k)return formPin(k.dataset.ppin);
     var t=e.target.closest('[data-ptog]'); if(t)return togglePetugas(t.dataset.ptog);
     var d=e.target.closest('[data-phapus]'); if(d)return hapusPetugas(d.dataset.phapus);
-  });
+  };;
 }
 
 function formPetugas(id){
@@ -895,7 +897,7 @@ async function simpanKartu(k,ubah){
     if(!tok){toast('Masukkan PIN manajemen di halaman Sumber data dulu.');S.page='data';render();return}
     var doc=JSON.parse(JSON.stringify(k));
     if(ubah.active===false)doc.active=false; else delete doc.active;
-    var j=await panggil(brandId,{a:'member.set',st:tok,code:k.code,doc:doc,base:k.updatedAt});
+    var j=await panggil(brandId,{a:'member.set',t:tok,code:k.code,doc:doc,base:k.updatedAt});
     if(j.doc){
       D.kartu=D.kartu.map(function(x){return x.code===k.code?j.doc:x});
       simpan();render();
@@ -929,10 +931,11 @@ function eksporCsv(){
    Sumber data — satu alamat server per brand
    ========================================================= */
 var sesi={tok:''};   /* token manajemen, hanya tersimpan di memori */
-function urlServer(){return D.server.url||''}
+function urlConfig(){return (window.ACK_CONFIG&&/^(https:\/\/|http:\/\/localhost)\S+$/i.test(window.ACK_CONFIG.url||''))?window.ACK_CONFIG.url:''}
+function urlServer(){return urlConfig()||D.server.url||''}
 function urlBrand(){return urlServer()}
 function kodeBrand(id){var b=D.brand.filter(function(x){return x.id===id})[0];return b?b.kode:''}
-var GALAT={bad_pin:'PIN manajemen ditolak server.',locked:'Terlalu banyak percobaan. Tunggu beberapa menit.',
+var GALAT={dipakai:'Cabang itu sudah punya member, jadi tidak bisa dihapus. Nonaktifkan saja.',bad:'Daftar cabang tidak valid.',bad_pin:'PIN manajemen ditolak server.',locked:'Terlalu banyak percobaan. Tunggu beberapa menit.',
   unknown_action:'Versi server belum mendukung permintaan ini.',not_found:'Data tidak ditemukan di server.',
   auth:'Sesi manajemen sudah berakhir. Masukkan PIN lagi.'};
 async function panggil(brandId,body){
@@ -967,50 +970,109 @@ async function tarikSemua(pin){
   D.kartu=semua;
   D.server.ditarik=Date.now(); D.server.jumlah=semua.length; D.server.sebagian=!!j.sebagian;
   simpan();
+  var naik=adopsiCabang(j.brand);
+  for(var i=0;i<naik.length;i++){try{await kirimCabang(naik[i])}catch(e){}}
   return semua.length;
 }
 
-/** Daftar cabang di dashboard ini adalah sumber kebenaran. Dikirim ke Config
- *  brand yang bersangkutan supaya aplikasi brandnya memakai daftar yang sama. */
-async function kirimCabang(brandId){
-  if(!sesi.tok)throw new Error('Masukkan PIN manajemen dulu lewat Tarik data.');
-  var j=await panggil(brandId,{a:'sync',t:sesi.tok});
-  var cfg=j.cfg||{};
-  cfg.cabang=D.toko.filter(function(t){return t.brand===brandId}).map(function(t){
-    return {kode:t.kode,nama:t.nama,aktif:!!t.aktif};
+/** Cabang tersimpan di server, bukan hanya di dashboard. Setiap perubahan
+ *  langsung dikirim, jadi aplikasi brand memakai daftar yang sama tanpa
+ *  langkah manual. */
+function daftarCabang(brandId){
+  return D.toko.filter(function(t){return t.brand===brandId}).map(function(t){
+    return {kode:t.kode,nama:t.nama,alamat:t.alamat||'',telepon:t.telepon||'',aktif:!!t.aktif};
   });
-  await panggil(brandId,{a:'config.set',t:sesi.tok,cfg:cfg});
-  return cfg.cabang.length;
+}
+async function kirimCabang(brandId){
+  if(!sesi.tok)throw new Error('Belum tersambung ke server.');
+  var ls=daftarCabang(brandId);
+  await panggil(brandId,{a:'cabang.set',t:sesi.tok,cabang:ls});
+  D.server.cabangOk=D.server.cabangOk||{}; D.server.cabangOk[brandId]=Date.now();
+  simpan();
+  return ls.length;
+}
+/** Dipanggil setiap kali daftar cabang berubah. Gagal kirim tidak disembunyikan. */
+function sinkronCabang(brandId){
+  if(!urlServer())return;               /* mode lokal tanpa server */
+  if(!sesi.tok){toast('Belum tersambung ke server, perubahan cabang belum tersimpan di sana.');return}
+  kirimCabang(brandId).then(function(){
+    var b=D.brand.filter(function(x){return x.id===brandId})[0];
+    toast('Cabang '+(b?b.nama:'')+' tersimpan di server.');
+    if(S.page==='data')render();
+  }).catch(function(err){
+    if(/Sesi manajemen/.test(err.message))return kunciUlang();
+    toast('Server menolak: '+(err.message||'')+' Tampilan dikembalikan sesuai server.');
+    segarkan(true);
+  });
+}
+/** Server adalah sumber kebenaran. Kalau server sudah punya daftar cabang
+ *  sebuah brand, dashboard mengikutinya; kalau server masih kosong dan
+ *  dashboard sudah punya, daftar dashboard dikirim naik. */
+function adopsiCabang(infoBrand){
+  var naik=[];
+  D.brand.forEach(function(b){
+    var info=(infoBrand||{})[b.kode], sv=(info&&info.cabang)||[];
+    if(sv.length){
+      var lama=D.toko.filter(function(t){return t.brand===b.id});
+      var baru=sv.map(function(c){
+        var kode=String(c.kode||'').toUpperCase();
+        var ada=lama.filter(function(t){return t.kode===kode})[0];
+        return {id:ada?ada.id:uid(),brand:b.id,kode:kode,nama:c.nama||kode,
+          alamat:c.alamat!=null?c.alamat:(ada?ada.alamat:''),
+          telepon:c.telepon!=null?c.telepon:(ada?ada.telepon:''),
+          aktif:c.aktif!==false,dibuat:ada?ada.dibuat:Date.now()};
+      });
+      var hapus={}; lama.forEach(function(t){hapus[t.id]=1});
+      D.petugas=D.petugas.filter(function(p){return !(hapus[p.toko]&&!baru.some(function(t){return t.id===p.toko}))});
+      D.toko=D.toko.filter(function(t){return t.brand!==b.id}).concat(baru);
+    }else if(D.toko.some(function(t){return t.brand===b.id})){
+      naik.push(b.id);
+    }
+  });
+  simpan();
+  return naik;
+}
+function kunciUlang(){
+  sesi.tok=''; clearInterval(sesi.timer);
+  $('#app').hidden=true; $('#gate').hidden=false;
+  var e=$('#gateErr'); e.textContent='Sesi berakhir. Masukkan PIN manajemen lagi.'; e.hidden=false;
+  $('#gatePin').value=''; $('#gatePin').focus();
 }
 
 function halData(){
   $('#pgTitle').textContent='Sumber data';
   $('#pgSub').textContent='Semua brand memakai satu backend yang sama. Dashboard menarik salinan kartunya untuk dibaca di sini.';
-  var s=D.server;
+  var s=D.server, dariConfig=!!urlConfig(), tersambung=!!sesi.tok;
   var h='<div class="card" style="margin-bottom:14px"><div class="hd"><h3>Server ACK Group</h3>'+
-    (s.ditarik?'<span class="pill on"><span class="dot"></span>Ada salinan</span>':'<span class="pill off"><span class="dot"></span>Belum ditarik</span>')+
-    '</div><div class="bd" style="padding:4px 18px 18px">'+
-    '<div class="field"><label for="uSrv">Alamat aplikasi web (Apps Script)</label>'+
+    (tersambung?'<span class="pill on"><span class="dot"></span>Tersambung</span>':'<span class="pill off"><span class="dot"></span>Tidak tersambung</span>')+
+    '</div><div class="bd" style="padding:4px 18px 18px">';
+  if(dariConfig){
+    h+='<div class="field"><label>Alamat server</label><input value="'+esc(urlConfig())+'" readonly>'+
+      '<p class="hint">Dibaca dari config.js. Satu backend, dipakai bersama aplikasi Temma dan DTOP.</p></div>';
+  }else{
+    h+='<div class="field"><label for="uSrv">Alamat aplikasi web (Apps Script)</label>'+
       '<input id="uSrv" placeholder="https://script.google.com/macros/s/.../exec" value="'+esc(s.url||'')+'">'+
-      '<p class="hint">Alamat yang sama persis dengan yang dipakai aplikasi Temma dan DTOP. Satu backend untuk semua brand.</p></div>'+
-    '<div class="rowact">'+
-      '<button class="btn sm" type="button" id="simpanUrl">Simpan alamat</button>'+
-      '<button class="btn sm primary" type="button" id="tarikSemua">Tarik data semua brand</button>'+
+      '<p class="hint">Cara yang lebih rapi: isi alamat ini di config.js supaya tidak perlu diketik di tiap perangkat.</p></div>'+
+      '<div class="rowact"><button class="btn sm" type="button" id="simpanUrl">Simpan alamat</button></div>';
+  }
+  h+='<div class="rowact" style="margin-top:10px">'+
+      '<button class="btn sm primary" type="button" id="tarikSemua"'+(tersambung?'':' disabled')+'>Segarkan sekarang</button>'+
       (D.kartu.length?'<button class="btn sm" type="button" id="buangSemua">Hapus salinan</button>':'')+
     '</div>'+
     '<p class="sub" style="margin-top:10px">'+
-      (s.ditarik?(D.kartu.length+' kartu · terakhir ditarik '+tgl(s.ditarik)):'Belum pernah ditarik.')+
+      (s.ditarik?(D.kartu.length+' kartu · terakhir diperbarui '+tgl(s.ditarik)+' · diperbarui otomatis tiap 60 detik'):'Belum ada data dari server.')+
       (s.sebagian?' · server membatasi 2000 kartu sekali tarik':'')+'</p>'+
     '</div></div>';
 
-  h+='<div class="card" style="margin-bottom:14px"><div class="hd"><h3>Kirim daftar cabang ke brand</h3></div>'+
+  h+='<div class="card" style="margin-bottom:14px"><div class="hd"><h3>Cabang di server</h3></div>'+
     '<div class="bd" style="padding:4px 18px 18px">'+
-    '<p class="sub">Daftar cabang di dashboard ini yang dipakai aplikasi brandnya saat member memilih tempat mendaftar. Kirim ulang setiap kali kamu menambah, mengubah, atau menonaktifkan cabang.</p>'+
+    '<p class="sub">Cabang yang kamu tambah, ubah, atau hapus di halaman Cabang langsung tersimpan di server. Aplikasi brand membaca daftar yang sama saat member memilih tempat mendaftar.</p>'+
     '<table style="margin-top:10px"><tbody>';
   D.brand.forEach(function(b){
     var n=D.toko.filter(function(t){return t.brand===b.id}).length;
-    h+='<tr><td><b>'+esc(b.nama)+'</b><div class="sub">'+n+' cabang terdaftar</div></td>'+
-      '<td class="r"><button class="btn sm" type="button" data-kirimcab="'+b.id+'"'+(n?'':' disabled')+'>Kirim ke server</button></td></tr>';
+    var ok=(s.cabangOk||{})[b.id];
+    h+='<tr><td><b>'+esc(b.nama)+'</b><div class="sub">'+n+' cabang · '+(ok?'tersimpan di server '+tgl(ok):'belum ada perubahan dikirim')+'</div></td>'+
+      '<td class="r"><button class="btn sm" type="button" data-kirimcab="'+b.id+'"'+((n&&tersambung)?'':' disabled')+'>Kirim ulang</button></td></tr>';
   });
   h+='</tbody></table></div></div>';
   h+='<div class="card"><div class="hd"><h3>Data contoh</h3></div><div class="bd" style="padding:4px 18px 18px">'+
@@ -1022,7 +1084,7 @@ function halData(){
   h+='<div class="infobox" style="margin-top:14px">PIN manajemen tidak disimpan. PIN itu berlaku untuk seluruh holding dan hanya dipakai selama dashboard ini terbuka. PIN kasir berbeda-beda tiap brand dan diatur di Sheet.</div>';
   $('#pg').innerHTML=h;
 
-  $('#pg').addEventListener('click',function(e){
+  $('#pg').onclick=function(e){
     if(e.target.closest('#simpanUrl')){
       var v=$('#uSrv').value.trim();
       if(v&&!/^https:\/\/\S+$/i.test(v))return toast('Alamat harus diawali https://');
@@ -1030,52 +1092,27 @@ function halData(){
       toast(v?'Alamat server disimpan.':'Alamat dikosongkan.');
       return;
     }
-    if(e.target.closest('#tarikSemua'))return mintaPinLaluTarik();
+    if(e.target.closest('#tarikSemua'))return segarkan(true);
     if(e.target.closest('#buangSemua'))return hapusSemuaSalinan();
     var kc=e.target.closest('[data-kirimcab]');
-    if(kc)return kirimCabangKe(kc.dataset.kirimcab);
+    if(kc){kirimCabang(kc.dataset.kirimcab).then(function(n){render();toast(n+' cabang terkirim.')}).catch(function(er){toast(er.message)});return}
     if(e.target.closest('#demoIsi'))return isiContoh();
     if(e.target.closest('#demoHapus'))return hapusSemuaSalinan();
+  };;
+}
+
+/** Tarik ulang dengan sesi yang sudah terbuka, tanpa PIN lagi. */
+function segarkan(tampilkan){
+  if(!sesi.tok)return;
+  tarikSemua().then(function(n){
+    if(tampilkan)toast(n+' kartu diperbarui dari server.');
+    if(tampilkan||S.page==='data'||S.page==='member'||S.page==='ringkasan'||S.page==='cabang')render();
+  }).catch(function(err){
+    if(/Sesi manajemen/.test(err.message))return kunciUlang();
+    if(tampilkan)toast(err.message||'Gagal memperbarui.');
   });
 }
 
-function mintaPinLaluTarik(){
-  if(!urlServer())return toast('Isi alamat server dulu, lalu simpan.');
-  bukaDialog({
-    judul:'Tarik data semua brand',
-    sub:'PIN manajemen dipakai sekali untuk membuka sesi, tidak disimpan.',
-    isi:'<div class="field"><label for="tPin">PIN manajemen ACK Group</label>'+
-      '<input id="tPin" type="password" inputmode="numeric" maxlength="12" placeholder="••••"></div>'+
-      '<p class="err" id="tErr" hidden></p>',
-    lanjut:'Tarik data',
-    jalan:function(){
-      var pin=$('#tPin').value.trim();
-      if(!pin){$('#tErr').textContent='PIN wajib diisi.';$('#tErr').hidden=false;return false}
-      toast('Menarik data…');
-      tarikSemua(pin).then(function(n){
-        render();toast(n+' kartu berhasil ditarik dari server.');
-      }).catch(function(err){toast(err.message||'Gagal menarik data.')});
-      return true;
-    }
-  });
-}
-function kirimCabangKe(brandId){
-  if(!urlServer())return toast('Isi alamat server dulu, lalu simpan.');
-  var n=D.toko.filter(function(t){return t.brand===brandId}).length;
-  bukaDialog({
-    judul:'Kirim daftar cabang '+namaBrand(brandId)+'?',
-    sub:'Daftar di dashboard ini akan menggantikan daftar cabang di server.',
-    isi:'<div class="infobox">'+n+' cabang dikirim. Setelah ini, member baru '+esc(namaBrand(brandId))+
-      ' hanya bisa memilih cabang dari daftar tersebut, dan cabang nonaktif tidak muncul sebagai pilihan.</div>',
-    lanjut:'Kirim sekarang',
-    jalan:function(){
-      kirimCabang(brandId).then(function(j){
-        toast(j+' cabang '+namaBrand(brandId)+' terkirim ke server.');
-      }).catch(function(err){toast(err.message||'Gagal mengirim daftar cabang.')});
-      return true;
-    }
-  });
-}
 function hapusSemuaSalinan(){
   konfirmasi({
     judul:'Kosongkan semua salinan kartu?',
@@ -1143,7 +1180,7 @@ function halBrand(){
   h+='</tbody></table></div>';
   h+='<div class="infobox" style="margin-top:14px">Kode brand tidak bisa diubah karena menempel pada ID semua member. Menambah brand baru dikerjakan bersamaan dengan pembuatan aplikasinya, jadi belum ada tombolnya di sini.</div>';
   $('#pg').innerHTML=h;
-  $('#pg').addEventListener('click',function(e){
+  $('#pg').onclick=function(e){
     var u=e.target.closest('[data-bubah]'); if(!u)return;
     var b=D.brand.filter(function(x){return x.id===u.dataset.bubah})[0];
     bukaDialog({judul:'Ubah nama '+b.nama,sub:'Nama ini tampil di dashboard dan laporan.',
@@ -1154,21 +1191,34 @@ function halBrand(){
         if(!v){$('#bErr').textContent='Nama brand wajib diisi.';$('#bErr').hidden=false;return false}
         b.nama=v;simpan();render();toast('Nama brand diperbarui.');return true;
       }});
-  });
+  };;
 }
 
 /* =========================================================
    Gerbang masuk
    ========================================================= */
 function pinTersimpan(){return ls.get(PINKEY)||'1234'}
+function buka(){
+  $('#gate').hidden=true;$('#app').hidden=false;render();
+  if(sesi.tok){
+    clearInterval(sesi.timer);
+    sesi.timer=setInterval(function(){if(!document.hidden)segarkan(false)},60000);
+  }
+}
 $('#gateForm').addEventListener('submit',function(e){
   e.preventDefault();
-  var v=$('#gatePin').value.trim(), err=$('#gateErr');
-  if(v!==pinTersimpan()){err.textContent='PIN salah. Coba lagi.';err.hidden=false;$('#gatePin').select();return}
-  ls.set(SESKEY,'1');masuk();
+  var v=$('#gatePin').value.trim(), err=$('#gateErr'), tbl=$('#gateForm button[type=submit]');
+  function tolak(m){err.textContent=m;err.hidden=false;tbl.disabled=false;$('#gatePin').select()}
+  if(!urlServer()){                       /* mode lokal, tanpa server */
+    if(v!==pinTersimpan())return tolak('PIN salah. Coba lagi.');
+    ls.set(SESKEY,'1');return buka();
+  }
+  err.hidden=true; tbl.disabled=true;
+  tarikSemua(v).then(function(){buka()}).catch(function(ex){
+    tolak(/ditolak/.test(ex.message)?'PIN salah. Coba lagi.':ex.message);
+  });
 });
-function masuk(){$('#gate').hidden=true;$('#app').hidden=false;render()}
-if(ls.get(SESKEY)==='1')masuk(); else setTimeout(function(){$('#gatePin').focus()},80);
+if(!urlServer()&&ls.get(SESKEY)==='1')buka(); else setTimeout(function(){$('#gatePin').focus()},80);
 </script>
 </body>
 </html>
